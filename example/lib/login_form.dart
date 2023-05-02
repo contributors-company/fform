@@ -3,10 +3,6 @@ import 'package:example_fform/fields/password_confirm_field.dart';
 import 'package:example_fform/fields/password_field.dart';
 import 'package:fform/fform.dart';
 
-
-
-
-
 class LoginForm extends FForm {
   final NameField name;
   final PasswordField password;
@@ -30,8 +26,6 @@ class LoginForm extends FForm {
     );
   }
 
-
   @override
   List<FFormField> get fields => [name, password, passwordConfirm];
-
 }
