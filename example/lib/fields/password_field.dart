@@ -5,8 +5,9 @@ enum PasswordFieldException {
 
   @override
   String toString() {
-    switch(this) {
-      case min: return 'PasswordField.min.8';
+    switch (this) {
+      case min:
+        return 'PasswordField.min.8';
     }
   }
 }
@@ -17,7 +18,7 @@ class PasswordField extends FFormField<String, PasswordFieldException> {
 
   @override
   PasswordFieldException? validator(String value) {
-    if(value.length <= 7) {
+    if (value.length <= 7) {
       return PasswordFieldException.min;
     } else {
       return null;

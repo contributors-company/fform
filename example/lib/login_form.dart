@@ -8,22 +8,19 @@ class LoginForm extends FForm {
   final PasswordField password;
   final PasswordConfirmField passwordConfirm;
 
-  LoginForm({
-    this.name = const NameField.pure(),
-    this.password = const PasswordField.pure(),
-    this.passwordConfirm = const PasswordConfirmField.pure('')
-  });
+  LoginForm(
+      {this.name = const NameField.pure(),
+      this.password = const PasswordField.pure(),
+      this.passwordConfirm = const PasswordConfirmField.pure('')});
 
-  LoginForm copyWith({
-    NameField? name,
-    PasswordField? password,
-    PasswordConfirmField? passwordConfirm
-  }) {
+  LoginForm copyWith(
+      {NameField? name,
+      PasswordField? password,
+      PasswordConfirmField? passwordConfirm}) {
     return LoginForm(
-      name: name ?? this.name,
-      password: password ?? this.password,
-      passwordConfirm: passwordConfirm ?? this.passwordConfirm
-    );
+        name: name ?? this.name,
+        password: password ?? this.password,
+        passwordConfirm: passwordConfirm ?? this.passwordConfirm);
   }
 
   @override

@@ -5,13 +5,15 @@ enum PasswordConfirmFieldException {
 
   @override
   String toString() {
-    switch(this) {
-      case different: return 'PasswordConfirmField not different';
+    switch (this) {
+      case different:
+        return 'PasswordConfirmField not different';
     }
   }
 }
 
-class PasswordConfirmField extends FFormField<String, PasswordConfirmFieldException> {
+class PasswordConfirmField
+    extends FFormField<String, PasswordConfirmFieldException> {
   final String password;
 
   const PasswordConfirmField.pure(this.password) : super.pure('');
@@ -19,7 +21,7 @@ class PasswordConfirmField extends FFormField<String, PasswordConfirmFieldExcept
 
   @override
   PasswordConfirmFieldException? validator(String value) {
-    if(password != value) {
+    if (password != value) {
       return PasswordConfirmFieldException.different;
     } else {
       return null;

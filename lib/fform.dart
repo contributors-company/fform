@@ -1,7 +1,6 @@
 library fform;
 
 abstract class FForm {
-
   List<FFormField> get fields;
 
   List get answers => fields.map((e) => e.exception).toList();
@@ -38,16 +37,14 @@ class FFormValidator {
 
   @override
   int get hashCode => Object.hashAll([fields, isValid]);
-
 }
 
 abstract class FFormField<T, E> {
   final T value;
   const FFormField._({required this.value});
 
-  const FFormField.pure(T value): this._(value: value);
-  FFormField.dirty(T value): this._(value: value);
-
+  const FFormField.pure(T value) : this._(value: value);
+  FFormField.dirty(T value) : this._(value: value);
 
   E? validator(T value);
 
@@ -67,5 +64,4 @@ abstract class FFormField<T, E> {
 
   @override
   int get hashCode => Object.hashAll([value, isValid]);
-
 }
