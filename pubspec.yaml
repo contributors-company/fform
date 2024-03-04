@@ -1,10 +1,10 @@
 name: fform
 description: fform - package for validate form flutter
-version: 0.0.1
+version: 1.0.0
 homepage: https://github.com/AlexHCJP/fform
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: '>=2.19.6 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

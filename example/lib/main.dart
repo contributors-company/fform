@@ -2,6 +2,7 @@ import 'package:example_fform/fields/name_field.dart';
 import 'package:example_fform/fields/password_confirm_field.dart';
 import 'package:example_fform/fields/password_field.dart';
 import 'package:example_fform/login_form.dart';
+import 'package:fform/fform.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -38,10 +39,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _checkForm() {
     if (form.isValid) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
           backgroundColor: Colors.greenAccent,
           content: Row(
-            children: const [
+            children: [
               Icon(
                 Icons.lock_open,
                 color: Colors.white,
@@ -49,10 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(width: 10),
               Text('Welcome', style: TextStyle(color: Colors.white))
             ],
-          )));
+          ),
+        ),
+      );
     } else {
       for (var element in form.exceptions) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
             backgroundColor: Colors.red,
             content: Row(
               children: [
@@ -61,31 +66,39 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.white,
                 ),
                 const SizedBox(width: 10),
-                Text(element.toString(),
-                    style: const TextStyle(color: Colors.white))
+                Text(
+                  element.toString(),
+                  style: const TextStyle(color: Colors.white),
+                )
               ],
-            )));
+            ),
+          ),
+        );
       }
     }
   }
 
   _nameListener() {
-    form = form.copyWith(name: NameField.dirty(_nameController.value.text));
+    form.changeFields(name: NameField.dirty(_nameController.value.text));
   }
 
   _passwordListener() {
-    form = form.copyWith(
-        password: PasswordField.dirty(_passwordController.value.text),
-        passwordConfirm: PasswordConfirmField.dirty(
-            _passwordConfirmController.value.text,
-            _passwordController.value.text));
+    form.changeFields(
+      password: PasswordField.dirty(_passwordController.value.text),
+      passwordConfirm: PasswordConfirmField.dirty(
+        _passwordConfirmController.value.text,
+        _passwordController.value.text,
+      ),
+    );
   }
 
   _passwordConfirmListener() {
-    form = form.copyWith(
-        passwordConfirm: PasswordConfirmField.dirty(
-            _passwordConfirmController.value.text,
-            _passwordController.value.text));
+    form.changeFields(
+      passwordConfirm: PasswordConfirmField.dirty(
+        _passwordConfirmController.value.text,
+        _passwordController.value.text,
+      ),
+    );
   }
 
   @override
@@ -117,22 +130,34 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              controller: _nameController,
-            ),
-            TextField(
-              obscureText: true,
-              controller: _passwordController,
-            ),
-            TextField(
-              obscureText: true,
-              controller: _passwordConfirmController,
-            ),
-            ElevatedButton(
-                onPressed: _checkForm, child: const Text('Check Form'))
-          ],
+        child: FFormBuilder(
+          form: form,
+          builder: (BuildContext context, FForm form) {
+            return Column(
+              children: [
+                TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      errorText: form.get<NameField>().exception.toString(),
+                    )),
+                TextField(
+                  controller: _nameController,
+                ),
+                TextField(
+                  obscureText: true,
+                  controller: _passwordController,
+                ),
+                TextField(
+                  obscureText: true,
+                  controller: _passwordConfirmController,
+                ),
+                ElevatedButton(
+                  onPressed: _checkForm,
+                  child: const Text('Check Form'),
+                )
+              ],
+            );
+          },
         ),
       ),
     );
