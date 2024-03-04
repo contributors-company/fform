@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
-
 part 'fform_field.dart';
 
 /// FForm is a class that represents a form.
@@ -14,15 +12,17 @@ part 'fform_field.dart';
 /// It has a stream controller to listen to changes in the form.
 /// It has a method to set the form.
 abstract class FForm {
-  final bool allUpdateCheck;
-
-  FForm({this.allUpdateCheck = true}) {
-    if (allUpdateCheck) {
+  /// Constructor to initialize the form.
+  FForm() {
+    if (allFieldUpdateCheck) {
       for (var field in fields) {
         field.onChange = (value) => notifyListeners();
       }
     }
   }
+
+  /// Check if all fields are updated when a field is updated.
+  bool get allFieldUpdateCheck => false;
 
   /// Stream controller to listen to changes in the form.
   final StreamController<FForm> _stream = StreamController<FForm>();

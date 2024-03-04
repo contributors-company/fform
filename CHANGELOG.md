@@ -13,3 +13,11 @@
 ## 2.0.0
 
 * Significant improvement
+
+## 2.0.1
+
+* Change Readme
+
+## 2.0.2
+
+* Remove allFieldUpdateCheck from constructor FForm

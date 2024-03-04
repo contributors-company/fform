@@ -1,7 +1,3 @@
-Sure, let's update the README for the FForm package with your requests, incorporating a more youthful tone and including emojis, while also making the necessary adjustments to the code examples and translating everything into English.
-
----
-
 # FForm Package 🚀
 
 Let's dive into getting started with the FForm package, making it as straightforward and engaging as possible for new users. Here's a quick guide to help you hit the ground running with your Flutter form management. 🌈
@@ -34,7 +30,7 @@ FForm is a high-level Flutter package designed to make form creation and managem
 ## Why It Rocks 🎸
 
 - **State Management Simplified**: Automatically handles the state of both individual form fields and the form as a whole.
-- **Built-in Validation with a Twist**: Easily define validation rules for each field and automatically check them upon data changes, but let's use `errorText` for a change.
+- **Built-in Validation with a Twist**: Supports on-the-fly validation and error handling for each field, ensuring a smooth user experience.
 - **Flexibility at Its Finest**: Supports any data type for field values and validation errors thanks to generics.
 - **Reactive Forms for the Win**: Leverages streams for tracking form state changes, ensuring your UI is always in sync.
 
@@ -78,8 +74,7 @@ class LoginForm extends FForm {
   
   LoginForm({
     String? name,
-  })  : name = NameField(name ?? ''),
-        super(allFieldUpdateCheck: true);
+  }) : name = NameField(name ?? '');
 
   void changeFields({
     String? name,
@@ -89,6 +84,9 @@ class LoginForm extends FForm {
 
   @override
   List<FFormField> get fields => [name];
+  
+  @override
+  bool get allFieldUpdateCheck => true;
 }
 ```
 
@@ -139,4 +137,4 @@ The `allFieldUpdateCheck` property plays a critical role in determining how `FFo
 
 Choose the setting that best fits your form's requirements and user experience goals. This feature offers you the flexibility to optimize form interactions and performance in your Flutter apps. 🚀
 
-This README aims to guide you through the essentials of using the `FForm` for creating validated form fields and `FFormBuilder` for assembling and managing a form within your Flutter application, all while keeping things fresh and engaging. 🌟
+This README aims to guide you through the essentials of using the `FForm` for creating validated form and `FFormBuilder` for assembling and managing a form within your Flutter application, all while keeping things fresh and engaging. 🌟

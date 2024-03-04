@@ -14,9 +14,10 @@ class LoginForm extends FForm {
     String? passwordConfirm,
   })  : name = NameField(name ?? ''),
         password = PasswordField(password ?? ''),
-        passwordConfirm =
-            PasswordConfirmField(passwordConfirm ?? '', password ?? ''),
-        super(allUpdateCheck: true);
+        passwordConfirm = PasswordConfirmField(
+          passwordConfirm ?? '',
+          password ?? '',
+        );
 
   void changeFields({
     String? name,
@@ -31,4 +32,7 @@ class LoginForm extends FForm {
 
   @override
   List<FFormField> get fields => [name, password, passwordConfirm];
+
+  @override
+  bool get allFieldUpdateCheck => true;
 }
