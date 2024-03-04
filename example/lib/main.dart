@@ -79,25 +79,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _nameListener() {
-    form.changeFields(name: NameField.dirty(_nameController.value.text));
+    form.changeFields(name: _nameController.value.text);
   }
 
   _passwordListener() {
     form.changeFields(
-      password: PasswordField.dirty(_passwordController.value.text),
-      passwordConfirm: PasswordConfirmField.dirty(
-        _passwordConfirmController.value.text,
-        _passwordController.value.text,
-      ),
+      password: _passwordController.value.text,
+      passwordConfirm: _passwordConfirmController.value.text,
     );
   }
 
   _passwordConfirmListener() {
     form.changeFields(
-      passwordConfirm: PasswordConfirmField.dirty(
-        _passwordConfirmController.value.text,
-        _passwordController.value.text,
-      ),
+      password: _passwordController.value.text,
+      passwordConfirm: _passwordConfirmController.value.text,
     );
   }
 
@@ -135,22 +130,27 @@ class _MyHomePageState extends State<MyHomePage> {
           builder: (BuildContext context, FForm form) {
             return Column(
               children: [
-                TextFormField(
+                TextField(
                     controller: _nameController,
                     decoration: InputDecoration(
                       errorText: form.get<NameField>().exception.toString(),
                     )),
                 TextField(
-                  controller: _nameController,
-                ),
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      errorText: form.get<NameField>().exception.toString(),
+                    )),
                 TextField(
-                  obscureText: true,
-                  controller: _passwordController,
-                ),
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      errorText: form.get<PasswordField>().exception.toString(),
+                    )),
                 TextField(
-                  obscureText: true,
-                  controller: _passwordConfirmController,
-                ),
+                    controller: _passwordConfirmController,
+                    decoration: InputDecoration(
+                      errorText:
+                          form.get<PasswordConfirmField>().exception.toString(),
+                    )),
                 ElevatedButton(
                   onPressed: _checkForm,
                   child: const Text('Check Form'),

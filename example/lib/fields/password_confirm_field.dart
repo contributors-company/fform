@@ -14,17 +14,13 @@ enum PasswordConfirmFieldException {
 
 class PasswordConfirmField
     extends FFormField<String, PasswordConfirmFieldException> {
-  final String password;
+  String password;
 
-  const PasswordConfirmField.pure(this.password) : super.pure('');
-  PasswordConfirmField.dirty(super.value, this.password) : super.dirty();
+  PasswordConfirmField(super.value, this.password);
 
   @override
   PasswordConfirmFieldException? validator(String value) {
-    if (password != value) {
-      return PasswordConfirmFieldException.different;
-    } else {
-      return null;
-    }
+    if (password != value) return PasswordConfirmFieldException.different;
+    return null;
   }
 }

@@ -11,6 +11,7 @@ class FFormBuilder extends StatefulWidget {
   /// The builder to build the form.
   final Widget Function(BuildContext context, FForm form) builder;
 
+  /// Creates a FFormBuilder.
   const FFormBuilder({
     Key? key,
     required this.form,
@@ -24,7 +25,8 @@ class FFormBuilder extends StatefulWidget {
 class FFormBuilderState extends State<FFormBuilder> {
   @override
   void initState() {
-    widget.form.stream.stream.listen((event) {
+    /// Listen to the stream of the form and update the state of the form.
+    widget.form.stream.listen((event) {
       setState(() {});
     });
     super.initState();

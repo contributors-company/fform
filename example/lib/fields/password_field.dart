@@ -13,8 +13,7 @@ enum PasswordFieldException {
 }
 
 class PasswordField extends FFormField<String, PasswordFieldException> {
-  const PasswordField.pure() : super.pure('');
-  PasswordField.dirty(super.value) : super.dirty();
+  PasswordField(super.value);
 
   @override
   PasswordFieldException? validator(String value) {

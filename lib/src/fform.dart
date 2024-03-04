@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
+
 part 'fform_field.dart';
 
 /// FForm is a class that represents a form.
@@ -12,6 +14,22 @@ part 'fform_field.dart';
 /// It has a stream controller to listen to changes in the form.
 /// It has a method to set the form.
 abstract class FForm {
+  final bool allUpdateCheck;
+
+  FForm({this.allUpdateCheck = true}) {
+    if (allUpdateCheck) {
+      for (var field in fields) {
+        field.onChange = (value) => notifyListeners();
+      }
+    }
+  }
+
+  /// Stream controller to listen to changes in the form.
+  final StreamController<FForm> _stream = StreamController<FForm>();
+
+  /// Stream to listen to changes in the form.
+  Stream<FForm> get stream => _stream.stream;
+
   /// List of fields of the form.
   List<FFormField> get fields;
 
@@ -22,17 +40,19 @@ abstract class FForm {
   List get exceptions => answers.where((element) => element != null).toList();
 
   /// Check if the form is valid.
-  bool get isValid => exceptions.isEmpty;
+  bool get isValid {
+    notifyListeners();
+    return exceptions.isEmpty;
+  }
 
   /// Check if the form is invalid.
-  bool get isInvalid => exceptions.isNotEmpty;
-
-  /// Stream controller to listen to changes in the form.
-  final StreamController<FForm> stream = StreamController<FForm>();
+  bool get isInvalid {
+    return !isValid;
+  }
 
   /// Set the form.
-  set(FForm form) {
-    stream.add(form);
+  notifyListeners() {
+    _stream.add(this);
   }
 
   /// Get the first field of a specific type.

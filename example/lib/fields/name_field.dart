@@ -13,8 +13,7 @@ enum NameFieldException {
 }
 
 class NameField extends FFormField<String, NameFieldException> {
-  const NameField.pure() : super.pure('');
-  NameField.dirty(super.value) : super.dirty();
+  NameField(super.value);
 
   @override
   NameFieldException? validator(String value) {

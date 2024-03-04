@@ -6,11 +6,25 @@ part of 'fform.dart';
 /// It has a method to check if the field is invalid.
 /// It has a method to get the exception of the field.
 abstract class FFormField<T, E> {
-  final T value;
-  const FFormField._({required this.value});
+  /// Value of the field.
+  T _value;
 
-  const FFormField.pure(T value) : this._(value: value);
-  FFormField.dirty(T value) : this._(value: value);
+  /// Function to call when the value of the field changes.
+  E? Function(T value)? onChange;
+
+  /// Constructor of the class.
+  FFormField(T value) : _value = value;
+
+  /// get value of the field.
+  T get value => _value;
+
+  /// set value of the field.
+  set value(T newValue) {
+    if (_value != newValue) {
+      _value = newValue;
+      // onChange?.call(_value);
+    }
+  }
 
   /// Validator of the field.
   E? validator(T value);

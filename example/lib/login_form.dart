@@ -9,20 +9,24 @@ class LoginForm extends FForm {
   PasswordConfirmField passwordConfirm;
 
   LoginForm({
-    this.name = const NameField.pure(),
-    this.password = const PasswordField.pure(),
-    this.passwordConfirm = const PasswordConfirmField.pure(''),
-  });
+    String? name,
+    String? password,
+    String? passwordConfirm,
+  })  : name = NameField(name ?? ''),
+        password = PasswordField(password ?? ''),
+        passwordConfirm =
+            PasswordConfirmField(passwordConfirm ?? '', password ?? ''),
+        super(allUpdateCheck: true);
 
   void changeFields({
-    NameField? name,
-    PasswordField? password,
-    PasswordConfirmField? passwordConfirm,
+    String? name,
+    String? password,
+    String? passwordConfirm,
   }) {
-    this.name = name ?? this.name;
-    this.password = password ?? this.password;
-    this.passwordConfirm = passwordConfirm ?? this.passwordConfirm;
-    set(this);
+    this.name.value = name ?? this.name.value;
+    this.password.value = password ?? this.password.value;
+    this.passwordConfirm.password = password ?? this.passwordConfirm.password;
+    this.passwordConfirm.value = passwordConfirm ?? this.passwordConfirm.value;
   }
 
   @override

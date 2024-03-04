@@ -10,3 +10,6 @@
 
 * Normal description
 
+## 2.0.0
+
+* Significant improvement
