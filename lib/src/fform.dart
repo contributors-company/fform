@@ -16,7 +16,7 @@ abstract class FForm {
   FForm() {
     if (allFieldUpdateCheck) {
       for (var field in fields) {
-        field.onChange = (value) => notifyListeners();
+        field.addListener((value) => notifyListeners());
       }
     }
   }

@@ -5,12 +5,40 @@ part of 'fform.dart';
 /// It has a method to check if the field is valid.
 /// It has a method to check if the field is invalid.
 /// It has a method to get the exception of the field.
+
+class FFormFieldResponse<T, E> {
+  final T value;
+  final E? exception;
+
+  FFormFieldResponse(this.value, this.exception);
+}
+
+typedef FFormFieldListener<T, E> = void Function(
+    FFormFieldResponse<T, E> value);
+
 abstract class FFormField<T, E> {
   /// Value of the field.
   T _value;
 
   /// Function to call when the value of the field changes.
-  E? Function(T value)? onChange;
+  List<FFormFieldListener<T, E>> listeners = [];
+
+  /// add listener to the field.
+  void addListener(FFormFieldListener<T, E> callback) {
+    listeners.add(callback);
+  }
+
+  /// remove listener from the field.
+  void removeListener(FFormFieldListener<T, E> callback) {
+    listeners.remove(callback);
+  }
+
+  /// Function to call when the value of the field changes.
+  _callListeners() {
+    for (var listener in listeners) {
+      listener(FFormFieldResponse(value, exception));
+    }
+  }
 
   /// Constructor of the class.
   FFormField(T value) : _value = value;
@@ -22,7 +50,7 @@ abstract class FFormField<T, E> {
   set value(T newValue) {
     if (_value != newValue) {
       _value = newValue;
-      // onChange?.call(_value);
+      _callListeners();
     }
   }
 
