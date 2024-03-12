@@ -25,3 +25,7 @@
 ## 2.0.3
 
 * replace onChange to listeners
+
+## 2.0.4
+
+* replace stream to listeners in Fform

@@ -34,5 +34,5 @@ class LoginForm extends FForm {
   List<FFormField> get fields => [name, password, passwordConfirm];
 
   @override
-  bool get allFieldUpdateCheck => true;
+  bool get allFieldUpdateCheck => false;
 }

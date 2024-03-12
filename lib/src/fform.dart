@@ -1,6 +1,7 @@
-import 'dart:async';
-
 part 'fform_field.dart';
+
+/// FFormListener is a function that takes a FForm as a parameter.
+typedef FFormListener = void Function(FForm value);
 
 /// FForm is a class that represents a form.
 /// It has a list of fields and a list of answers.
@@ -9,8 +10,6 @@ part 'fform_field.dart';
 /// It has a method to get the exceptions of the fields.
 /// It has a method to check if the form is valid.
 /// It has a method to check if the form is invalid.
-/// It has a stream controller to listen to changes in the form.
-/// It has a method to set the form.
 abstract class FForm {
   /// Constructor to initialize the form.
   FForm() {
@@ -21,14 +20,28 @@ abstract class FForm {
     }
   }
 
+  /// listeners of the form.
+  final List<FFormListener> _listeners = [];
+
+  /// add listener to the form.
+  addListener(FFormListener listener) {
+    _listeners.add(listener);
+  }
+
+  /// remove listener from the form.
+  removeListener(FFormListener listener) {
+    _listeners.remove(listener);
+  }
+
+  /// Function to call when the value of the form changes.
+  _callListeners() {
+    for (var listener in _listeners) {
+      listener(this);
+    }
+  }
+
   /// Check if all fields are updated when a field is updated.
   bool get allFieldUpdateCheck => false;
-
-  /// Stream controller to listen to changes in the form.
-  final StreamController<FForm> _stream = StreamController<FForm>();
-
-  /// Stream to listen to changes in the form.
-  Stream<FForm> get stream => _stream.stream;
 
   /// List of fields of the form.
   List<FFormField> get fields;
@@ -52,7 +65,7 @@ abstract class FForm {
 
   /// Set the form.
   notifyListeners() {
-    _stream.add(this);
+    _callListeners();
   }
 
   /// Get the first field of a specific type.
