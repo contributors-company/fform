@@ -2,14 +2,17 @@ import 'package:flutter/cupertino.dart';
 
 import 'fform.dart';
 
+/// FFormWidgetBuilder is a function that builds a form widget.
+typedef FFormWidgetBuilder<T> = Widget Function(BuildContext context, T form);
+
 /// FFormBuilder is a widget that builds a form and manages the state of the form.
 /// It is used to create a form and manage the state of the form.
-class FFormBuilder<F extends FForm> extends StatefulWidget {
+class FFormBuilder<T extends FForm> extends StatefulWidget {
   /// The form to be built and managed.
-  final F form;
+  final T form;
 
   /// The builder to build the form.
-  final Widget Function(BuildContext context, F form) builder;
+  final FFormWidgetBuilder<T> builder;
 
   /// Creates a FFormBuilder.
   const FFormBuilder({
@@ -19,10 +22,11 @@ class FFormBuilder<F extends FForm> extends StatefulWidget {
   });
 
   @override
-  FFormBuilderState createState() => FFormBuilderState();
+  State<FFormBuilder<T>> createState() => FFormBuilderState<T>();
 }
 
-class FFormBuilderState extends State<FFormBuilder> {
+/// The state of the FFormBuilder.
+class FFormBuilderState<T extends FForm> extends State<FFormBuilder<T>> {
   @override
   void initState() {
     /// Listen to the stream of the form and update the state of the form.
@@ -32,8 +36,7 @@ class FFormBuilderState extends State<FFormBuilder> {
     super.initState();
   }
 
+  /// Build the form using the builder.
   @override
-  Widget build(BuildContext context) {
-    return widget.builder(context, widget.form);
-  }
+  Widget build(BuildContext context) => widget.builder(context, widget.form);
 }

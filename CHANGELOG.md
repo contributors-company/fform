@@ -29,3 +29,7 @@
 ## 2.0.4
 
 * replace stream to listeners in Fform
+
+## 2.0.5
+
+* debug typization in FFormBuilder

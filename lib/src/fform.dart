@@ -33,13 +33,6 @@ abstract class FForm {
     _listeners.remove(listener);
   }
 
-  /// Function to call when the value of the form changes.
-  _callListeners() {
-    for (var listener in _listeners) {
-      listener(this);
-    }
-  }
-
   /// Check if all fields are updated when a field is updated.
   bool get allFieldUpdateCheck => false;
 
@@ -65,7 +58,9 @@ abstract class FForm {
 
   /// Set the form.
   notifyListeners() {
-    _callListeners();
+    for (var listener in _listeners) {
+      listener(this);
+    }
   }
 
   /// Get the first field of a specific type.

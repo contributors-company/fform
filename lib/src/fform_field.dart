@@ -1,11 +1,6 @@
 part of 'fform.dart';
 
-/// FFormField is a base class for all form fields.
-/// It has a value and a validator.
-/// It has a method to check if the field is valid.
-/// It has a method to check if the field is invalid.
-/// It has a method to get the exception of the field.
-
+/// FFormFieldResponse is a class that holds the value of the field and the exception of the field.
 class FFormFieldResponse<T, E> {
   final T value;
   final E? exception;
@@ -13,9 +8,15 @@ class FFormFieldResponse<T, E> {
   FFormFieldResponse(this.value, this.exception);
 }
 
+/// FFormFieldListener is a function that takes a FFormFieldResponse as a parameter.
 typedef FFormFieldListener<T, E> = void Function(
     FFormFieldResponse<T, E> value);
 
+/// FFormField is a base class for all form fields.
+/// It has a value and a validator.
+/// It has a method to check if the field is valid.
+/// It has a method to check if the field is invalid.
+/// It has a method to get the exception of the field.
 abstract class FFormField<T, E> {
   /// Value of the field.
   T _value;
@@ -75,6 +76,7 @@ abstract class FFormField<T, E> {
         other.isValid == isValid;
   }
 
+  /// Check if the field is valid.
   @override
   int get hashCode => Object.hashAll([value, isValid]);
 }

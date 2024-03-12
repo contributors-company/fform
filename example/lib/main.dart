@@ -125,9 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
-        child: FFormBuilder(
+        child: FFormBuilder<LoginForm>(
           form: form,
-          builder: (BuildContext context, FForm form) {
+          builder: (BuildContext context, LoginForm form) {
             return Column(
               children: [
                 TextField(
