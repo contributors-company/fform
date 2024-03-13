@@ -98,11 +98,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _nameController = TextEditingController()..addListener(_nameListener);
-    _passwordController = TextEditingController()
-      ..addListener(_passwordListener);
-    _passwordConfirmController = TextEditingController()
-      ..addListener(_passwordConfirmListener);
+    _nameController = TextEditingController();
+    _passwordController = TextEditingController();
+    _passwordConfirmController = TextEditingController();
+
+    _nameController.addListener(_nameListener);
+    _passwordController.addListener(_passwordListener);
+    _passwordConfirmController.addListener(_passwordConfirmListener);
     super.initState();
   }
 
@@ -131,26 +133,37 @@ class _MyHomePageState extends State<MyHomePage> {
             return Column(
               children: [
                 TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      errorText: form.get<NameField>().exception.toString(),
-                    )),
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    errorText: form.hasCheck
+                        ? form.get<NameField>().exception.toString()
+                        : null,
+                  ),
+                ),
                 TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      errorText: form.get<NameField>().exception.toString(),
-                    )),
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    errorText: form.hasCheck
+                        ? form.get<NameField>().exception.toString()
+                        : null,
+                  ),
+                ),
                 TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      errorText: form.get<PasswordField>().exception.toString(),
-                    )),
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    errorText: form.hasCheck
+                        ? form.get<PasswordField>().exception.toString()
+                        : null,
+                  ),
+                ),
                 TextField(
-                    controller: _passwordConfirmController,
-                    decoration: InputDecoration(
-                      errorText:
-                          form.get<PasswordConfirmField>().exception.toString(),
-                    )),
+                  controller: _passwordConfirmController,
+                  decoration: InputDecoration(
+                    errorText: form.hasCheck
+                        ? form.get<PasswordConfirmField>().exception.toString()
+                        : null,
+                  ),
+                ),
                 ElevatedButton(
                   onPressed: _checkForm,
                   child: const Text('Check Form'),

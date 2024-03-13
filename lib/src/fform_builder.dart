@@ -29,11 +29,21 @@ class FFormBuilder<T extends FForm> extends StatefulWidget {
 class FFormBuilderState<T extends FForm> extends State<FFormBuilder<T>> {
   @override
   void initState() {
-    /// Listen to the stream of the form and update the state of the form.
-    widget.form.addListener((value) {
-      setState(() {});
-    });
+    /// Add a listener to the stream of the form.
+    widget.form.addListener(_listenForm);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    /// Remove the listener to the stream of the form.
+    widget.form.removeListener(_listenForm);
+    super.dispose();
+  }
+
+  /// Listen to the form and update the state.
+  void _listenForm() {
+    setState(() {});
   }
 
   /// Build the form using the builder.

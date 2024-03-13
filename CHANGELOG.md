@@ -33,3 +33,7 @@
 ## 2.0.5
 
 * debug typization in FFormBuilder
+
+## 2.0.6
+
+* Add parameter to FForm hasCheck

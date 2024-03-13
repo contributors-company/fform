@@ -1,7 +1,7 @@
 part 'fform_field.dart';
 
 /// FFormListener is a function that takes a FForm as a parameter.
-typedef FFormListener = void Function(FForm value);
+typedef FFormListener<T extends FForm> = void Function();
 
 /// FForm is a class that represents a form.
 /// It has a list of fields and a list of answers.
@@ -11,6 +11,9 @@ typedef FFormListener = void Function(FForm value);
 /// It has a method to check if the form is valid.
 /// It has a method to check if the form is invalid.
 abstract class FForm {
+  /// Check if the form has been checked.
+  bool hasCheck = false;
+
   /// Constructor to initialize the form.
   FForm() {
     if (allFieldUpdateCheck) {
@@ -20,7 +23,7 @@ abstract class FForm {
     }
   }
 
-  /// listeners of the form.
+  /// List of listeners of the form.
   final List<FFormListener> _listeners = [];
 
   /// add listener to the form.
@@ -47,6 +50,7 @@ abstract class FForm {
 
   /// Check if the form is valid.
   bool get isValid {
+    hasCheck = true;
     notifyListeners();
     return exceptions.isEmpty;
   }
@@ -59,7 +63,7 @@ abstract class FForm {
   /// Set the form.
   notifyListeners() {
     for (var listener in _listeners) {
-      listener(this);
+      listener();
     }
   }
 
