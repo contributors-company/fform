@@ -24,19 +24,23 @@ class CreateQuestTaskForm extends FForm {
     );
   }
 
-  change(
-      {required String title,
-      required String description,
-      required String descriptionReport,
-      required String interval}) {
+  change({
+    required String title,
+    required String description,
+    required String descriptionReport,
+    required String interval,
+  }) {
     this.title.value = title;
     this.description.value = description;
     this.descriptionReport.value = descriptionReport;
     this.interval.value = interval;
-    notifyListeners();
   }
 
   @override
-  List<FFormField> get fields =>
-      [title, description, descriptionReport, interval];
+  List<FFormField> get fields => [
+        title,
+        description,
+        descriptionReport,
+        interval,
+      ];
 }

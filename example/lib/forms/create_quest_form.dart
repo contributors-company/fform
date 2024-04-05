@@ -1,5 +1,4 @@
 import 'package:example_fform/fields/fields.dart';
-import 'package:example_fform/main.dart';
 import 'package:fform/fform.dart';
 
 import '../models/models.dart';
@@ -95,16 +94,17 @@ class CreateQuestForm extends FForm {
     this.repeat.value = repeat;
     this.count.value = count;
     this.age.value = age;
-
-    this.tasks.asMap().forEach((key, value) {
-      final task = tasks[key];
-      value.change(
-        title: task.title,
-        description: task.description,
-        descriptionReport: task.descriptionReport,
-        interval: task.interval,
-      );
-    });
+    if (tasks.isNotEmpty) {
+      this.tasks.asMap().forEach((key, value) {
+        final task = tasks[key];
+        value.change(
+          title: task.title,
+          description: task.description,
+          descriptionReport: task.descriptionReport,
+          interval: task.interval,
+        );
+      });
+    }
   }
 
   @override
@@ -116,4 +116,7 @@ class CreateQuestForm extends FForm {
   List<FForm> get subForms => [
         ...tasks,
       ];
+
+  @override
+  bool get allFieldUpdateCheck => true;
 }
