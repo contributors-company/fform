@@ -39,28 +39,34 @@ FForm is a high-level Flutter package designed to make form creation and managem
 ### Example 1: Creating a Form Field
 
 ```dart
-enum NameFieldException {
-  min;
+enum EmailError {
+  empty,
+  not;
 
   @override
   String toString() {
     switch (this) {
-      case min:
-        return 'NameField.min.3';
+      case empty:
+        return 'emailEmpty';
+      case not:
+        return 'invalidFormatEmail';
+      default:
+        return 'invalidFormatEmail';
     }
   }
 }
 
-class NameField extends FFormField<String, NameFieldException> {
-  NameField(super.value);
+class EmailField extends FFormField<String, EmailError> {
+  bool isRequired;
+
+  EmailField({required String value, this.isRequired = true}) : super(value);
 
   @override
-  NameFieldException? validator(String value) {
-    if (value.length <= 2) {
-      return NameFieldException.min;
-    } else {
-      return null;
+  EmailError? validator(value) {
+    if (isRequired) {
+      if (value.isEmpty) return EmailError.empty;
     }
+    return null;
   }
 }
 
@@ -93,33 +99,109 @@ class LoginForm extends FForm {
 ### Example 3: Crafting a Form with FFormBuilder
 
 ```dart
-class MyFormPage extends StatelessWidget {
-  final TextEditingController _nameController = TextEditingController();
-  final FForm myForm = LoginForm(); // Assuming LoginForm is initialized with form fields
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
+  final LoginForm _form = LoginForm.zero();
+
+  _checkForm() {
+    _form.change(
+        email: _emailController.value.text,
+        password: _passwordController.value.text);
+    return _form.isValid;
+  }
+
+  _login() {
+    if (_checkForm()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.greenAccent,
+          content: Row(
+            children: [
+              Icon(
+                Icons.lock_open,
+                color: Colors.white,
+              ),
+              SizedBox(width: 10),
+              Text('Welcome', style: TextStyle(color: Colors.white))
+            ],
+          ),
+        ),
+      );
+    } else {
+      for (var element in _form.allExceptions) {
+        print(element.toString());
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FFormBuilder(
-      form: myForm,
-      builder: (context, form) {
-        return Column(
-          children: [
-            TextField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  errorText: form.get<NameField>().exception.toString(),
-                )
-            ),
-            ElevatedButton(
-              onPressed: form.isValid ? () {} : null,
-              child: Text('Submit 🚀'),
-            ),
-          ],
-        );
-      },
+    return Scaffold(
+      drawer: const DrawerApp(),
+      appBar: AppBar(
+        title: const Text('Login Form'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: FFormBuilder(
+            form: _form,
+            builder: (context, form) {
+              return Column(
+                children: [
+                  TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      errorText: form.email.exception.toString(),
+                    ),
+                  ),
+                  TextField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      errorText: form.password.exception.toString(),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: _login,
+                    child: const Text('Login'),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
+
 ```
 
 
