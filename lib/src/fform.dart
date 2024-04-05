@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 part 'fform_field.dart';
 
 /// FFormListener is a function that takes a FForm as a parameter.
@@ -42,22 +44,66 @@ abstract class FForm {
   /// List of fields of the form.
   List<FFormField> get fields;
 
+  List<FFormField> get _allFields =>
+      [...fields, ...subForms.expand((element) => element._allFields)];
+
+  /// List of sub forms of the form.
+  List<FForm> get subForms => [];
+
   /// List of answers of the fields.
   List get answers => fields.map((e) => e.exception).toList();
+
+  /// List of answers of the sub forms.
+  List get answersSubForms =>
+      [for (var subForm in subForms) ...subForm.answers];
+
+  /// List of all answers of the fields and sub forms.
+  List get allAnswers => [...answers, ...answersSubForms];
 
   /// List of exceptions of the fields.
   List get exceptions => answers.where((element) => element != null).toList();
 
+  /// List of exceptions of the sub forms.
+  List get exceptionsSubForms =>
+      answersSubForms.where((element) => element != null).toList();
+
+  /// List of all exceptions of the fields and sub forms.
+  List get allExceptions =>
+      allAnswers.where((element) => element != null).toList();
+
   /// Check if the form is valid.
   bool get isValid {
+    for (var element in subForms) {
+      element.isValid;
+    }
     hasCheck = true;
     notifyListeners();
-    return exceptions.isEmpty;
+    return allExceptions.isEmpty;
   }
 
   /// Check if the form is invalid.
   bool get isInvalid {
     return !isValid;
+  }
+
+  /// Get the first field with an exception.
+  FFormField? get firstInvalidField {
+    for (var field in _allFields) {
+      if (field.exception != null) {
+        return field;
+      }
+    }
+    return null;
+  }
+
+  ///Get the last field with an exception.
+  FFormField? get lastInvalidField {
+    for (var field in _allFields.reversed) {
+      if (field.exception != null) {
+        return field;
+      }
+    }
+    return null;
   }
 
   /// Set the form.

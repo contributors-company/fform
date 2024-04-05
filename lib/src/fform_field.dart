@@ -21,6 +21,8 @@ abstract class FFormField<T, E> {
   /// Value of the field.
   T _value;
 
+  GlobalKey key = GlobalKey();
+
   /// Function to call when the value of the field changes.
   List<FFormFieldListener<T, E>> listeners = [];
 
