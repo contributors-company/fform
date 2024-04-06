@@ -53,7 +53,7 @@ FForm is a high-level Flutter package designed to make form creation and managem
 
 ## Previews
 
-<div style="display: flex;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
   <img src="https://github.com/AlexHCJP/fform/blob/main/assets/1.gif"/>
   <img src="https://github.com/AlexHCJP/fform/blob/main/assets/2.gif"/>
   <img src="https://github.com/AlexHCJP/fform/blob/main/assets/3.gif"/>
