@@ -53,11 +53,9 @@ FForm is a high-level Flutter package designed to make form creation and managem
 
 ## Previews
 
-![](https://github.com/AlexHCJP/fform/blob/main/assets/1.gif | width=100)
-![](https://github.com/AlexHCJP/fform/blob/main/assets/2.gif | width=100)
-![](https://github.com/AlexHCJP/fform/blob/main/assets/3.gif | width=100)
-//write markworn list image by row
-
+![](https://github.com/AlexHCJP/fform/blob/main/assets/1.gif)
+![](https://github.com/AlexHCJP/fform/blob/main/assets/2.gif)
+![](https://github.com/AlexHCJP/fform/blob/main/assets/3.gif)
 
 
 
