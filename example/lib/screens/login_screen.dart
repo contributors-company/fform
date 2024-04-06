@@ -79,42 +79,43 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const DrawerApp(),
-        appBar: AppBar(
-          title: const Text('Login Form'),
-        ),
-        body: SingleChildScrollView(
+      drawer: const DrawerApp(),
+      appBar: AppBar(
+        title: const Text('Login Form'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: FFormBuilder(
-              form: _form,
-              builder: (context, form) {
-                return Column(
-                  children: [
-                    TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        errorText: form.email.exception.toString(),
-                      ),
+          child: FFormBuilder(
+            form: _form,
+            builder: (context, form) {
+              return Column(
+                children: [
+                  TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      errorText: form.email.exception.toString(),
                     ),
-                    TextField(
-                      controller: _passwordController,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        errorText: form.password.exception.toString(),
-                      ),
+                  ),
+                  TextField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      errorText: form.password.exception.toString(),
                     ),
-                    ElevatedButton(
-                      onPressed: _login,
-                      child: const Text('Login'),
-                    ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                  ElevatedButton(
+                    onPressed: _login,
+                    child: const Text('Login'),
+                  ),
+                ],
+              );
+            },
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

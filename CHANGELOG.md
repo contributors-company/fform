@@ -37,3 +37,7 @@
 ## 2.0.6
 
 * Add parameter to FForm hasCheck
+
+## 2.0.7
+
+* Add support Multi Form

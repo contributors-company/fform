@@ -9,21 +9,31 @@ class DrawerApp extends StatelessWidget {
       child: ListView(
         children: [
           const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
+            child: Text(
+              'FFORM',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.orangeAccent,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 56),
             ),
-            child: Text('FFORM'),
           ),
           ListTile(
-            title: const Text('Login'),
+            title: const Text('Login Form'),
             onTap: () {
               Navigator.pushNamed(context, '/');
             },
           ),
           ListTile(
-            title: const Text('Create Quest'),
+            title: const Text('Create Quest Form'),
             onTap: () {
               Navigator.pushNamed(context, '/create-quest');
+            },
+          ),
+          ListTile(
+            title: const Text('Draw Form'),
+            onTap: () {
+              Navigator.pushNamed(context, '/draw');
             },
           ),
         ],

@@ -6,3 +6,4 @@ export 'gender.dart';
 export 'children.dart';
 export 'activity.dart';
 export 'task.dart';
+export 'draw.dart';
