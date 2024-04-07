@@ -1,6 +1,6 @@
 name: fform
 description: FForm is a Flutter package to build forms with a lot of fields and validations.
-version: 2.1.0
+version: 2.1.1
 homepage: https://github.com/AlexHCJP/fform
 
 environment:

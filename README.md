@@ -53,9 +53,9 @@ FForm is a high-level Flutter package designed to make form creation and managem
 
 ## Previews
 
-| Login Form                                                    | Add Forms to Multiple Form                                    | Infinity Forms                                                |
-|---------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------------------------------|
-| ![](https://github.com/AlexHCJP/fform/blob/main/assets/1.gif) | ![](https://github.com/AlexHCJP/fform/blob/main/assets/2.gif) | ![](https://github.com/AlexHCJP/fform/blob/main/assets/3.gif) |
+| Login Form                                                   | Add Forms to Multiple Form                                   | Infinity Forms                                               |
+|--------------------------------------------------------------|--------------------------------------------------------------|--------------------------------------------------------------|
+| ![](https://github.com/AlexHCJP/fform/raw/main/assets/1.gif) | ![](https://github.com/AlexHCJP/fform/raw/main/assets/2.gif) | ![](https://github.com/AlexHCJP/fform/raw/main/assets/3.gif) |
 
 
 
