@@ -4,7 +4,7 @@ Let's dive into getting started with the FForm package, making it as straightfor
 
 ---
 
-- Introduction
+- [Introduction](#getting-started-with-fform-)
   - [Getting Started with FForm 🌟](#getting-started-with-fform-)
   - [Step 1: Installation](#step-1-installation)
   - [Overview](#overview)
