@@ -23,7 +23,6 @@ class MultiDrawController extends ValueNotifier<MultiDrawModel> {
         .remove(controller..removeListener(notifyListeners));
     notifyListeners();
   }
-
 }
 
 class MultiDrawModel {

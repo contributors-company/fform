@@ -41,3 +41,7 @@
 ## 2.0.7
 
 * Add support Multi Form
+
+## 2.1.0
+
+* Support Multi Form

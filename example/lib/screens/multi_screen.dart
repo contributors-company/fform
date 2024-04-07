@@ -142,7 +142,8 @@ class _DrawCardState extends State<DrawCard> {
                     ),
                     Row(
                       children: [
-                        IconButton(onPressed: _addDraw, icon: const Icon(Icons.add)),
+                        IconButton(
+                            onPressed: _addDraw, icon: const Icon(Icons.add)),
                       ],
                     ),
                     ...value.multiDrawControllers.mapWithIndex(
