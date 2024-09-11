@@ -1,7 +1,4 @@
 # FForm Package 🚀
-
-Let's dive into getting started with the FForm package, making it as straightforward and engaging as possible for new users. Here's a quick guide to help you hit the ground running with your Flutter form management. 🌈
-
 ---
 
 - [Introduction](#getting-started-with-fform-)
