@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
-
 import 'fform.dart';
 
-/// FFormWidgetBuilder is a function that builds a form widget.
-typedef FFormWidgetBuilder<T> = Widget Function(BuildContext context, T form);
+part 'types_builder.dart';
 
 /// FFormBuilder is a widget that builds a form and manages the state of the form.
 /// It is used to create a form and manage the state of the form.
@@ -29,22 +27,22 @@ class FFormBuilder<T extends FForm> extends StatefulWidget {
 class FFormBuilderState<T extends FForm> extends State<FFormBuilder<T>> {
   @override
   void initState() {
+    super.initState();
+
     /// Add a listener to the stream of the form.
     widget.form.addListener(_listenForm);
-    super.initState();
   }
 
   @override
   void dispose() {
+    super.dispose();
+
     /// Remove the listener to the stream of the form.
     widget.form.removeListener(_listenForm);
-    super.dispose();
   }
 
   /// Listen to the form and update the state.
-  void _listenForm() {
-    setState(() {});
-  }
+  void _listenForm() => setState(() {});
 
   /// Build the form using the builder.
   @override

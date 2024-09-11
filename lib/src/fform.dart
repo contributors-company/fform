@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 part 'fform_field.dart';
-
-/// FFormListener is a function that takes a FForm as a parameter.
-typedef FFormListener<T extends FForm> = void Function();
+part 'fform_exception.dart';
+part 'types.dart';
 
 /// FForm is a class that represents a form.
 /// It has a list of fields and a list of answers.
@@ -29,14 +28,10 @@ abstract class FForm {
   final List<FFormListener> _listeners = [];
 
   /// add listener to the form.
-  addListener(FFormListener listener) {
-    _listeners.add(listener);
-  }
+  void addListener(FFormListener listener) => _listeners.add(listener);
 
   /// remove listener from the form.
-  removeListener(FFormListener listener) {
-    _listeners.remove(listener);
-  }
+  void removeListener(FFormListener listener) => _listeners.remove(listener);
 
   /// Check if all fields are updated when a field is updated.
   bool get allFieldUpdateCheck => false;
@@ -44,6 +39,7 @@ abstract class FForm {
   /// List of fields of the form.
   List<FFormField> get fields;
 
+  /// List of all fields of the form.
   List<FFormField> get _allFields =>
       [...fields, ...subForms.expand((element) => element._allFields)];
 
@@ -51,24 +47,25 @@ abstract class FForm {
   List<FForm> get subForms => [];
 
   /// List of answers of the fields.
-  List get answers => fields.map((e) => e.exception).toList();
+  List<dynamic> get answers => fields.map((e) => e.exception).toList();
 
   /// List of answers of the sub forms.
-  List get answersSubForms =>
+  List<dynamic> get answersSubForms =>
       [for (var subForm in subForms) ...subForm.answers];
 
   /// List of all answers of the fields and sub forms.
-  List get allAnswers => [...answers, ...answersSubForms];
+  List<dynamic> get allAnswers => [...answers, ...answersSubForms];
 
   /// List of exceptions of the fields.
-  List get exceptions => answers.where((element) => element != null).toList();
+  List<dynamic> get exceptions =>
+      answers.where((element) => element != null).toList();
 
   /// List of exceptions of the sub forms.
-  List get exceptionsSubForms =>
+  List<dynamic> get exceptionsSubForms =>
       answersSubForms.where((element) => element != null).toList();
 
   /// List of all exceptions of the fields and sub forms.
-  List get allExceptions =>
+  List<dynamic> get allExceptions =>
       allAnswers.where((element) => element != null).toList();
 
   /// Check if the form is valid.
@@ -82,9 +79,7 @@ abstract class FForm {
   }
 
   /// Check if the form is invalid.
-  bool get isInvalid {
-    return !isValid;
-  }
+  bool get isInvalid => !isValid;
 
   /// Get the first field with an exception.
   FFormField? get firstInvalidField {
@@ -107,14 +102,12 @@ abstract class FForm {
   }
 
   /// Set the form.
-  notifyListeners() {
+  void notifyListeners() {
     for (var listener in _listeners) {
       listener();
     }
   }
 
   /// Get the first field of a specific type.
-  T get<T extends FFormField>() {
-    return fields.firstWhere((element) => element is T) as T;
-  }
+  T get<T extends FFormField>() => fields.whereType<T>() as T;
 }

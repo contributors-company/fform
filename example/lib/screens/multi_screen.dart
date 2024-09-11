@@ -1,5 +1,6 @@
 import 'package:example_fform/extension/list_map_with_index.dart';
 import 'package:fform/fform.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/controllers.dart';
@@ -34,23 +35,27 @@ class _MultiScreenState extends State<MultiScreen> {
 
   @override
   void initState() {
+    super.initState();
     _multiDrawController = MultiDrawController();
     _form = builderForm(_multiDrawController);
-    super.initState();
   }
 
   @override
   void dispose() {
-    _multiDrawController.dispose();
     super.dispose();
+    _multiDrawController.dispose();
   }
 
-  _check() {
+  void _check() {
     if (_form.isValid) {
-      print('Form is valid');
+      if (kDebugMode) {
+        print('Form is valid');
+      }
     } else {
       for (var element in _form.allExceptions) {
-        print(element.toString());
+        if (kDebugMode) {
+          print(element.toString());
+        }
       }
     }
   }

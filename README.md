@@ -1,8 +1,9 @@
 # FForm Package 🚀
 
-Let's dive into getting started with the FForm package, making it as straightforward and engaging as possible for new users. Here's a quick guide to help you hit the ground running with your Flutter form management. 🌈
-
 ---
+
+- [Telegram](https://t.me/itskinhead)
+- [GitHub](https://github.com/AlexHCJP)
 
 - [Introduction](#getting-started-with-fform-)
   - [Getting Started with FForm 🌟](#getting-started-with-fform-)
@@ -17,6 +18,9 @@ Let's dive into getting started with the FForm package, making it as straightfor
   - [Create Multiple Forms](#creating-multiple-forms)
     - [Multi Form](#creating-multiple-forms)
     - [Check Form in Presentation Layer](#check-form-in-presentation-layer)
+  - [Use FFormException for Validation multiple checks](#use-fformexception-for-validation-multiple-checks)
+    - [In Presentation Layer](#in-presentation-layer)
+    - [Notion](#notion)
 - [Important Note 📝](#important-note-)
 
 
@@ -42,6 +46,7 @@ FForm is a high-level Flutter package designed to make form creation and managem
 - `FFormField<T, E>`: A base class for all form fields supporting values, on-the-fly validation, and change handling.
 - `FFormBuilder<F extends FForm>`: A widget that constructs and manages the form state, utilizing streams to refresh the UI dynamically as data changes.
 - `FForm`: A base class for creating custom form classes, allowing you to add specific methods and properties to your forms.
+- `FFormException`: A base class for creating custom exceptions for form fields, enabling you to define custom validation rules and error messages.
 
 ## Why It Rocks 🎸
 
@@ -50,13 +55,14 @@ FForm is a high-level Flutter package designed to make form creation and managem
 - **Flexibility at Its Finest**: Supports any data type for field values and validation errors thanks to generics.
 - **Reactive Forms for the Win**: Leverages streams for tracking form state changes, ensuring your UI is always in sync.
 - **Multiple Forms, No Problem**: Create multiple forms with custom fields and validation rules, all managed seamlessly by FForm.
+- **Custom Exceptions for Custom Needs**: Define custom exceptions for form fields to handle complex validation rules and error messages with ease.
 
 ## Previews
 
 | Login Form                                                   | Add Forms to Multiple Form                                   | Infinity Forms                                               |
 |--------------------------------------------------------------|--------------------------------------------------------------|--------------------------------------------------------------|
 | ![](https://github.com/AlexHCJP/fform/raw/main/assets/1.gif) | ![](https://github.com/AlexHCJP/fform/raw/main/assets/2.gif) | ![](https://github.com/AlexHCJP/fform/raw/main/assets/3.gif) |
-
+| ![](https://github.com/AlexHCJP/fform/raw/main/assets/4.gif) |                                                              |                                                              |
 
 
 
@@ -449,11 +455,120 @@ class _DrawCardState extends State<DrawCard> {
 
 ```
 
+## Use FFormException for Validation multiple checks
+
+```dart
+import 'package:fform/fform.dart';
+import 'package:fform_validator/fform_validator.dart';
+
+class PasswordValidationException extends FFormException {
+  final bool isMinLengthValid;
+  final bool isSpecialCharValid;
+  final bool isNumberValid;
+
+  PasswordValidationException({
+    required this.isMinLengthValid,
+    required this.isSpecialCharValid,
+    required this.isNumberValid,
+  });
+  
+  bool get isValid => isMinLengthValid && isSpecialCharValid && isNumberValid;
+}
+
+class PasswordField extends FFormField<String, PasswordValidationException> {
+  PasswordField(String value) : super(value);
+
+  @override
+  PasswordValidationException? validator(String value) {
+    final validator = FFormValidator(value);
+    return PasswordValidationException(
+      isMinLengthValid: validator.isMinLength(8),
+      isSpecialCharValid: validator.isHaveSpecialChar,
+      isNumberValid: validator.isHaveNumber,
+    );
+  }
+}
+
+```
+
+---
+
+### In Presentation Layer
+
+```dart
+
+void _change() => _form.password.value = _passwordController.text;
+
+bool _showException(bool? isHaveException) {
+  if (isHaveException == null) return false;
+  return !isHaveException;
+}
+
+FFormBuilder(
+  form: _form,
+  builder: (context, form) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          controller: _passwordController,
+          decoration: const InputDecoration(
+            labelText: 'Password',
+          ),
+        ),
+        Visibility(
+          visible: form.password.exception != null,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 5),
+              if (_showException(form.password.exception?.isMinLengthValid))
+                const Text('Password must be at least 8 characters'),
+              const SizedBox(height: 5),
+              if (_showException(form.password.exception?.isSpecialCharValid))
+                const Text('Password must have special character'),
+              const SizedBox(height: 5),
+              if (_showException(form.password.exception?.isNumberValid))
+                const Text('Password must have number'),
+              const SizedBox(height: 5),
+            ],
+          ),
+        ),
+        ElevatedButton(
+          onPressed: _submit,
+          child: const Text('Submit'),
+        ),
+        const SizedBox(height: 10),
+        Text('Form is Valid: ${form.isValid}')
+      ],
+    );
+  },
+)
+```
+
+### Notion
+
+When use FFormException for validation, you need override getter isValid for normalize validation result.
+
+```dart
+class PasswordException extends FFormException {
+
+  @override
+  bool get isValid => true; // validation result in FForm is valid 
+
+  // or 
+
+  @override
+  bool get isValid => false; // validation result in FForm is not valid
+} 
+
+```
+
 ---
 
 ## Important Note 📝
 
-The `allFieldUpdateCheck` property plays a critical role in determining how `FFormBuilder` reacts to updates in form fields. This property specifies whether every field update will trigger a rebuild of the `FFormBuilder` or if the rebuild occurs exclusively when the `isValid` or `isInvalid` getters are invoked.
+The `allFieldUpdateCheck` in `FForm` property plays a critical role in determining how `FFormBuilder` reacts to updates in form fields. This property specifies whether every field update will trigger a rebuild of the `FFormBuilder` or if the rebuild occurs exclusively when the `isValid` or `isInvalid` getters are invoked.
 
 - **When `allFieldUpdateCheck` is enabled (set to `true`)**: Any change to a field's value leads to an immediate rebuild of the `FFormBuilder`, ensuring the UI is always in sync with the form's state. This is ideal for forms where field interdependencies are common, and you need real-time feedback.
 

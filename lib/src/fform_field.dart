@@ -1,17 +1,5 @@
 part of 'fform.dart';
 
-/// FFormFieldResponse is a class that holds the value of the field and the exception of the field.
-class FFormFieldResponse<T, E> {
-  final T value;
-  final E? exception;
-
-  FFormFieldResponse(this.value, this.exception);
-}
-
-/// FFormFieldListener is a function that takes a FFormFieldResponse as a parameter.
-typedef FFormFieldListener<T, E> = void Function(
-    FFormFieldResponse<T, E> value);
-
 /// FFormField is a base class for all form fields.
 /// It has a value and a validator.
 /// It has a method to check if the field is valid.
@@ -27,17 +15,15 @@ abstract class FFormField<T, E> {
   List<FFormFieldListener<T, E>> listeners = [];
 
   /// add listener to the field.
-  void addListener(FFormFieldListener<T, E> callback) {
-    listeners.add(callback);
-  }
+  void addListener(FFormFieldListener<T, E> callback) =>
+      listeners.add(callback);
 
   /// remove listener from the field.
-  void removeListener(FFormFieldListener<T, E> callback) {
-    listeners.remove(callback);
-  }
+  void removeListener(FFormFieldListener<T, E> callback) =>
+      listeners.remove(callback);
 
   /// Function to call when the value of the field changes.
-  _callListeners() {
+  void _callListeners() {
     for (var listener in listeners) {
       listener(FFormFieldResponse(value, exception));
     }
@@ -61,13 +47,31 @@ abstract class FFormField<T, E> {
   E? validator(T value);
 
   /// Check if the field is valid.
-  bool get isValid => exception == null;
+  bool get isValid {
+    if (exception == null) return true;
+    if (exception is! FFormException) return false;
+    return (exception as FFormException).isValid;
+  }
 
   /// Check if the field is invalid.
   bool get isNotValid => !isValid;
 
   /// Get the exception of the field.
-  E? get exception => validator(value);
+  E? get exception {
+    final exception = validator(value);
+
+    // If the exception is null, return null.
+    if (exception == null) return null;
+
+    // If the exception is not a FFormException, return the exception.
+    if (exception is! FFormException) return exception;
+
+    // If the exception is a FFormException and it is not valid, return null.
+    if (exception.isValid) return null;
+
+    // If the exception is a FFormException and it is valid, return the exception.
+    return exception;
+  }
 
   /// Check if the field is valid.
   @override

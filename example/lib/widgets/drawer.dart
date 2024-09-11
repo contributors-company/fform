@@ -36,6 +36,12 @@ class DrawerApp extends StatelessWidget {
               Navigator.pushNamed(context, '/draw');
             },
           ),
+          ListTile(
+            title: const Text('Exception Multi Validation'),
+            onTap: () {
+              Navigator.pushNamed(context, '/fform-exception');
+            },
+          ),
         ],
       ),
     );

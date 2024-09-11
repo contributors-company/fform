@@ -1,4 +1,5 @@
 import 'package:example_fform/screens/create_quest_screen.dart';
+import 'package:example_fform/screens/exception_multi_screen.dart';
 import 'package:example_fform/screens/multi_screen.dart';
 import 'package:example_fform/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginScreen(),
         '/create-quest': (context) => const CreateQuestScreen(),
         '/draw': (context) => const MultiScreen(),
+        '/fform-exception': (context) => const ExceptionMultiScreen(),
       },
     );
   }
