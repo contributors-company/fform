@@ -49,7 +49,7 @@ class _ExceptionMultiScreenState extends State<ExceptionMultiScreen> {
         ),
       );
     } else {
-      for (var element in _form.allExceptions) {
+      for (var element in _form.exceptions) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.redAccent,

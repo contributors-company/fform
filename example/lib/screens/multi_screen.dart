@@ -52,7 +52,7 @@ class _MultiScreenState extends State<MultiScreen> {
         print('Form is valid');
       }
     } else {
-      for (var element in _form.allExceptions) {
+      for (var element in _form.exceptions) {
         if (kDebugMode) {
           print(element.toString());
         }

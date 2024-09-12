@@ -13,7 +13,8 @@ part 'types.dart';
 /// It has a method to check if the form is invalid.
 abstract class FForm {
   /// Check if the form has been checked.
-  bool hasCheck = false;
+  bool get hasCheck => _hasCheck;
+  bool _hasCheck = false;
 
   /// Constructor to initialize the form.
   FForm() {
@@ -39,43 +40,43 @@ abstract class FForm {
   /// List of fields of the form.
   List<FFormField> get fields;
 
+  /// List of sub forms of the form.
+  List<FForm> get subForms => [];
+
   /// List of all fields of the form.
   List<FFormField> get _allFields =>
       [...fields, ...subForms.expand((element) => element._allFields)];
 
-  /// List of sub forms of the form.
-  List<FForm> get subForms => [];
-
   /// List of answers of the fields.
-  List<dynamic> get answers => fields.map((e) => e.exception).toList();
+  List<dynamic> get answerFields => fields.map((e) => e.exception).toList();
 
   /// List of answers of the sub forms.
   List<dynamic> get answersSubForms =>
-      [for (var subForm in subForms) ...subForm.answers];
+      [for (var subForm in subForms) ...subForm.answerFields];
 
   /// List of all answers of the fields and sub forms.
-  List<dynamic> get allAnswers => [...answers, ...answersSubForms];
+  List<dynamic> get answers => [...answerFields, ...answersSubForms];
 
   /// List of exceptions of the fields.
-  List<dynamic> get exceptions =>
-      answers.where((element) => element != null).toList();
+  List<dynamic> get exceptionFields =>
+      answerFields.where((element) => element != null).toList();
 
   /// List of exceptions of the sub forms.
-  List<dynamic> get exceptionsSubForms =>
+  List<dynamic> get exceptionSubForms =>
       answersSubForms.where((element) => element != null).toList();
 
   /// List of all exceptions of the fields and sub forms.
-  List<dynamic> get allExceptions =>
-      allAnswers.where((element) => element != null).toList();
+  List<dynamic> get exceptions =>
+      answers.where((element) => element != null).toList();
 
   /// Check if the form is valid.
   bool get isValid {
     for (var element in subForms) {
       element.isValid;
     }
-    hasCheck = true;
+    _hasCheck = true;
     notifyListeners();
-    return allExceptions.isEmpty;
+    return exceptions.isEmpty;
   }
 
   /// Check if the form is invalid.
@@ -84,9 +85,7 @@ abstract class FForm {
   /// Get the first field with an exception.
   FFormField? get firstInvalidField {
     for (var field in _allFields) {
-      if (field.exception != null) {
-        return field;
-      }
+      if (field.isInvalid) return field;
     }
     return null;
   }
@@ -94,9 +93,7 @@ abstract class FForm {
   ///Get the last field with an exception.
   FFormField? get lastInvalidField {
     for (var field in _allFields.reversed) {
-      if (field.exception != null) {
-        return field;
-      }
+      if (field.isInvalid) return field;
     }
     return null;
   }

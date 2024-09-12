@@ -41,7 +41,7 @@ class _CreateQuestScreenState extends State<CreateQuestScreen> {
         ),
       );
     } else {
-      for (var element in form.allExceptions) {
+      for (var element in form.exceptions) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             duration: const Duration(

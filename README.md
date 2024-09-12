@@ -1,9 +1,12 @@
 # FForm Package 🚀
 
----
+![Pub Version](https://img.shields.io/pub/v/fform)
+![Build Status](https://img.shields.io/github/actions/workflow/status/AlexHCJP/fform/build.yml)
+![License](https://img.shields.io/github/license/AlexHCJP/fform)
+![Issues](https://img.shields.io/github/issues/AlexHCJP/fform)
 
-- [Telegram](https://t.me/itskinhead)
-- [GitHub](https://github.com/AlexHCJP)
+
+---
 
 - [Introduction](#getting-started-with-fform-)
   - [Getting Started with FForm 🌟](#getting-started-with-fform-)
@@ -11,17 +14,15 @@
   - [Overview](#overview)
   - [Why It Rocks 🎸](#why-it-rocks-)
 - [Usage Example](#usage-examples)
-  - [Create Default Form](#creating-a-form-field)
-    - [Form Field](#creating-a-form-field)
-    - [FForm](#extending-fform-with-loginform)
-    - [FFormBuilder](#crafting-a-form-with-fformbuilder)
-  - [Create Multiple Forms](#creating-multiple-forms)
-    - [Multi Form](#creating-multiple-forms)
-    - [Check Form in Presentation Layer](#check-form-in-presentation-layer)
-  - [Use FFormException for Validation multiple checks](#use-fformexception-for-validation-multiple-checks)
-    - [In Presentation Layer](#in-presentation-layer)
-    - [Notion](#notion)
-- [Important Note 📝](#important-note-)
+  - [`FFormField`](#fformfield)
+    - [`FFormField` API](#fformfield-api)
+  - [`FForm`](#fform)
+    - [`FForm` API](#fform-api)
+  - [`FFormBuilder`](#fformbuilder)
+  - [`FFormProvider`](#fformprovider)
+  - [`FFormException`](#fformexception)
+    - [`FFormException` API](#fformexception-api)
+  
 
 
 # Getting Started with FForm 🌟
@@ -47,6 +48,7 @@ FForm is a high-level Flutter package designed to make form creation and managem
 - `FFormBuilder<F extends FForm>`: A widget that constructs and manages the form state, utilizing streams to refresh the UI dynamically as data changes.
 - `FForm`: A base class for creating custom form classes, allowing you to add specific methods and properties to your forms.
 - `FFormException`: A base class for creating custom exceptions for form fields, enabling you to define custom validation rules and error messages.
+- `FFormProvider`: A widget that allows you to access the form in the widget tree without passing it as a parameter.
 
 ## Why It Rocks 🎸
 
@@ -65,12 +67,13 @@ FForm is a high-level Flutter package designed to make form creation and managem
 | ![](https://github.com/AlexHCJP/fform/raw/main/assets/4.gif) |                                                              |                                                              |
 
 
-
-
-
 ## Usage Examples
 
-### Creating a Form Field
+### `FFormField`
+
+`FFormField` is a base class for all form fields, supporting values, on-the-fly validation, and change handling. It provides a set of getters and methods to manage the field state, including checking the field's validity, retrieving the current value, and handling exceptions.
+
+#### Example
 
 ```dart
 enum EmailError {
@@ -91,376 +94,190 @@ enum EmailError {
 }
 
 class EmailField extends FFormField<String, EmailError> {
-  bool isRequired;
 
-  EmailField({required String value, this.isRequired = true}) : super(value);
+  EmailField({required String value}) : super(value);
 
   @override
   EmailError? validator(value) {
-    if (isRequired) {
-      if (value.isEmpty) return EmailError.empty;
-    }
+    if (value.isEmpty) return EmailError.empty;
     return null;
   }
 }
 ```
 
-### Extending FForm with LoginForm
+#### `FFormField` API
+
+| GlobalKey key | A unique key for identifying the form field widget. It is used to manage the state of the widget and to access it in the widget tree. |
+|---------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| GlobalKey key |                                                                                                                                       |
+
+| Getters / Setters     | Description                                                                          |
+|-----------------------|--------------------------------------------------------------------------------------|
+| T get value           | Retrieves the current value of the form field.                                       |
+| set value(T newValue) | Sets a new value for the form field and triggers listeners if the value changes.     |
+| E? get exception      | Retrieves the current validation exception of the form field, if any.                |
+| bool get isValid      | Checks if the form field is valid based on the current value and validation rules.   |
+| bool get isInvalid    | Checks if the form field is invalid based on the current value and validation rules. |
+
+| Methods                                                | Description                                                                                     |
+|--------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| void addListener(FFormFieldListener<T, E> listener)    | Adds a listener that will be called when the value of the form field changes.                   |
+| void removeListener(FFormFieldListener<T, E> listener) | Removes a previously added listener from the form field.                                        |
+| E? validator(T value)                                  | Validates the current value of the form field and returns an exception if the value is invalid. |
+
+### `FForm`
+
+`FForm` is a base class for creating custom form classes with specific fields and validation rules. It provides a set of getters and methods to manage the form state, including checking the form's validity, retrieving answers, and handling exceptions.
+
+#### Example
+
+This is a simple example of how to create a form with a single field. You can extend the `FForm` class to create custom forms with specific fields and validation rules.
 
 ```dart
 class LoginForm extends FForm {
-  NameField name;
+  EmailField email;
   
   LoginForm({
-    String? name,
-  }) : name = NameField(name ?? '');
-
-  void changeFields({
-    String? name,
-  }) {
-    this.name.value = name ?? this.name.value;
-  }
+    required this.email,
+  });
 
   @override
-  List<FFormField> get fields => [name];
-  
+  List<FFormField> get fields => [email];
+}
+```
+
+This is a more complex example of how to create a form with multiple fields. You can extend the `FForm` class to create custom forms with specific fields and validation rules.
+
+```dart
+class Form extends FForm {
+  List<Form> forms;
+
+  Form({
+    required this.forms,
+  });
+
+  @override
+  List<FFormField> get subForms => forms;
+}
+```
+
+`allFieldUpdateCheck` is a property in `FForm` that determines whether every field update triggers a rebuild of the `FFormBuilder`. When set to `true`, the form will rebuild on every field update, ensuring real-time feedback to the user. When set to `false`, the form will only rebuild when the `isValid` or `isInvalid` getters are invoked, reducing the number of rebuilds and enhancing performance.
+
+```dart
+class LoginForm extends FForm {
+  EmailField email;
+
+  LoginForm({
+    required this.email,
+  });
+
   @override
   bool get allFieldUpdateCheck => true;
+  
+  @override
+  List<FFormField> get fields => [email];
 }
 ```
 
-### Crafting a Form with FFormBuilder
+#### `FForm` API
+
+| Getters                           | Description                                                                                                                                                                                                   |
+|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| bool get hasCheck                 | Returns whether the form has any validation checks. This getter checks if there are any validation rules applied to the form fields.                                                                          |
+| bool get allFieldUpdateCheck      | Indicates if every field update triggers a rebuild of the `FFormBuilder`. This is used to determine if the form should be rebuilt on every field update.                                                      |
+| List<FFormField> get fields       | Retrieves the list of form fields in the form. This getter is used to access all the fields that are part of the form.                                                                                        |
+| List<FForm> get subForms          | Retrieves the list of sub-forms within the form. This is used when the form contains nested forms, allowing access to those sub-forms.                                                                        |
+| List<dynamic> get answers         | Retrieves the list of answers from the form fields. This getter collects the current values of all form fields.                                                                                               |
+| List<dynamic> get exceptions      | Retrieves the list of validation exceptions from the form fields. This is used to gather all validation errors present in the form fields.                                                                    |
+| bool get isValid                  | Checks if the entire form is valid based on the current values and validation rules. This getter evaluates the validity of the form by checking each field's validation status and calls `notifyListeners()`. |
+| bool get isInvalid                | Checks if the entire form is invalid based on the current values and validation rules. This is the inverse of `isValid` and is used to quickly determine if the form has any invalid fields.                  |
+| FFormField? get firstInvalidField | Retrieves the first invalid form field, if any. This getter is used to find the first field that fails validation.                                                                                            |
+| FFormField? get lastInvalidField  | Retrieves the last invalid form field, if any. This getter is used to find the last field that fails validation.                                                                                              |
+
+
+| Methods                                     | Description                                                                                                                                                                     |
+|---------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| void addListener(FFormListener listener)    | Adds a listener that will be called when the form's state changes. This is useful for updating the UI or performing actions when the form's state changes.                      |
+| void removeListener(FFormListener listener) | Removes a previously added listener from the form. This is useful for cleaning up listeners when they are no longer needed.                                                     |
+| void notifyListeners()                      | Notifies all registered listeners of a change in the form's state. This is used to trigger updates in the UI or other parts of the application that depend on the form's state. |
+| T get<T extends FFormField>()               | Retrieves the first field of a specific type from the form. This is useful for accessing specific fields without knowing their exact position in the form.                      |
+
+### `FFormBuilder`
+
+`FFormBuilder` is a widget that constructs and manages the form state, utilizing streams to refresh the UI dynamically as data changes. It provides a builder function that takes the form and returns a widget tree based on the form's state.
+
+#### Example
+
+This is an example of how to use `FFormBuilder` to create a form with a single field. The builder function takes the form as a parameter and returns a widget tree based on the form's state.
 
 ```dart
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
-
-  final LoginForm _form = LoginForm.zero();
-
-  _checkForm() {
-    _form.change(
-        email: _emailController.value.text,
-        password: _passwordController.value.text);
-    return _form.isValid;
-  }
-
-  _login() {
-    if (_checkForm()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.greenAccent,
-          content: Row(
-            children: [
-              Icon(
-                Icons.lock_open,
-                color: Colors.white,
-              ),
-              SizedBox(width: 10),
-              Text('Welcome', style: TextStyle(color: Colors.white))
-            ],
-          ),
-        ),
-      );
-    } else {
-      for (var element in _form.allExceptions) {
-        print(element.toString());
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const DrawerApp(),
-      appBar: AppBar(
-        title: const Text('Login Form'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: FFormBuilder(
-            form: _form,
-            builder: (context, form) {
-              return Column(
-                children: [
-                  TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      errorText: form.email.exception.toString(),
-                    ),
-                  ),
-                  TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      errorText: form.password.exception.toString(),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: _login,
-                    child: const Text('Login'),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-```
-
-### Creating Multiple Forms
-
-```dart
-class MultiDrawForm extends FForm {
-  final DrawForm drawForm;
-  final List<MultiDrawForm> drawForms;
-
-  MultiDrawForm({required this.drawForm, required this.drawForms});
-
-  @override
-  List<FFormField> get fields => [];
-
-  @override
-  List<FForm> get subForms => [drawForm, ...drawForms];
-}
-
-class DrawForm extends FForm {
-  TitleField title;
-  DescriptionField description;
-
-  DrawForm({
-    required this.title,
-    required this.description,
-  });
-
-  DrawForm.zero() : this(
-    title: TitleField.dirty(value: ''),
-    description: DescriptionField.dirty(value: ''),
-  );
-
-  void changeFields({
-    String? title,
-    String? description,
-  }) {
-    this.title.value = title ?? this.title.value;
-    this.description.value = description ?? this.description.value;
-  }
-
-  @override
-  List<FFormField> get fields => [title, description];
-}
-```
-
-### Check Form in Presentation Layer
-
-
-```dart
-
-MultiDrawForm builderForm(MultiDrawController controller) {
-  return MultiDrawForm(
-    drawForm: DrawForm(
-      title: TitleField.dirty(
-        value: controller.value.drawController.value.title,
-      ),
-      description: DescriptionField.dirty(
-        value: controller.value.drawController.value.description,
-      ),
-    ),
-    drawForms: controller.value.multiDrawControllers.map((e) {
-      return builderForm(e);
-    }).toList(),
-  );
-}
-
-class MultiScreen extends StatefulWidget {
-  const MultiScreen({super.key});
-
-  @override
-  State<MultiScreen> createState() => _MultiScreenState();
-}
-
-class _MultiScreenState extends State<MultiScreen> {
-  late MultiDrawController _multiDrawController;
-  late MultiDrawForm _form;
-
-  @override
-  void initState() {
-    _multiDrawController = MultiDrawController();
-    _form = builderForm(_multiDrawController);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _multiDrawController.dispose();
-    super.dispose();
-  }
-
-  _check() {
-    if (_form.isValid) {
-      print('Form is valid');
-    } else {
-      for (var element in _form.allExceptions) {
-        print(element.toString());
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const DrawerApp(),
-      appBar: AppBar(
-        title: const Text('Draw Form'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: FFormBuilder<MultiDrawForm>(
-          form: _form,
-          builder: (context, form) {
-            return Column(
-              children: [
-                DrawCard(form: form, controller: _multiDrawController),
-                ElevatedButton(
-                  onPressed: _check,
-                  child: const Text('Check'),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class DrawCard extends StatefulWidget {
-  final MultiDrawForm form;
-  final MultiDrawController controller;
-
-  const DrawCard({
-    super.key,
-    required this.form,
-    required this.controller,
-  });
-
-  @override
-  State<DrawCard> createState() => _DrawCardState();
-}
-
-class _DrawCardState extends State<DrawCard> {
-  _addDraw() {
-    widget.form.drawForms.add(builderForm(widget.controller));
-    widget.controller.addDraw();
-  }
-
-  _removeDraw(MultiDrawController controller, MultiDrawForm form) => () {
-    widget.controller.removeDraw(controller);
-    widget.form.drawForms.remove(form);
+void _submit() {
+  if(_form.isValid) { // .isValid or .isInvalid start rebuild in FFormBuilder and returned boolean
+    print('Form Valid');
   };
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
+@override
+Widget build(BuildContext context) {
+  return FFormBuilder<LoginForm>(
+    form: _form,
+    builder: (context, form) {
+      EmailField email = form.email; // or FFormProvider.of<LoginForm>(context).get<NameField>()
+      
+      return Column(
         children: [
-          Container(
-            width: 20,
-            color: Colors.grey,
-          ),
-          Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: widget.controller,
-              builder: (context, value, child) {
-                return Column(
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Title',
-                        errorText:
-                        widget.form.drawForm.title.exception?.toString(),
-                      ),
-                      onChanged: (value) {
-                        widget.form.drawForm.title.value = value;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Title',
-                        errorText: widget.form.drawForm.description.exception
-                                ?.toString(),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        IconButton(onPressed: _addDraw, icon: const Icon(Icons.add)),
-                      ],
-                    ),
-                    ...value.multiDrawControllers.mapWithIndex(
-                              (controller, index) {
-                        MultiDrawForm form = widget.form.drawForms[index];
-
-                        return Column(
-                          children: [
-                            DrawCard(
-                              controller: controller,
-                              form: form,
-                            ),
-                            IconButton(
-                                    onPressed: _removeDraw(controller, form),
-                                    icon: const Icon(Icons.remove)),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
-                );
-              },
+          TextField(
+            key: email.key,
+            controller: _emailController,
+            decoration: InputDecoration(
+              labelText: 'Email',
+              errorText: email.exception.toString(),
             ),
           ),
+          ElevatedButton(
+            onPressed: _submit,
+            child: const Text('Submit'),
+          ),
         ],
-      ),
-    );
-  }
+      );
+    },
+  );
 }
 
 ```
 
-## Use FFormException for Validation multiple checks
+---
+
+### `FFormProvider`
+
+`FFormProvider` is a widget that allows you to access the form in the widget tree without passing it as a parameter.
+
+#### Example
 
 ```dart
-import 'package:fform/fform.dart';
-import 'package:fform_validator/fform_validator.dart';
+FFormBuilder<LoginForm>(
+  form: _form,
+  builder: (context, form) {
+    
+    FFormProvider.of<LoginForm>(context).email; // or form.email;
+    FFormProvider.of<LoginForm>(context).get<NameField>(); // or form.get<NameField>();
 
+    return YourForm();
+  },
+)
+```
+
+---
+
+### FFormException
+
+`FFormException` is a base class for creating custom exceptions for form fields. It allows you to define custom validation rules and error messages for form fields, enabling you to handle complex validation scenarios with ease.
+
+#### Example
+
+You can create a custom exception class that extends `FFormException` to define specific validation rules and error messages for a form field.
+
+```dart
 class PasswordValidationException extends FFormException {
   final bool isMinLengthValid;
   final bool isSpecialCharValid;
@@ -471,7 +288,8 @@ class PasswordValidationException extends FFormException {
     required this.isSpecialCharValid,
     required this.isNumberValid,
   });
-  
+
+  @override
   bool get isValid => isMinLengthValid && isSpecialCharValid && isNumberValid;
 }
 
@@ -488,92 +306,33 @@ class PasswordField extends FFormField<String, PasswordValidationException> {
     );
   }
 }
-
 ```
+
+#### FFormException API
+
+| Getters          | Description                                                                                |
+|------------------|--------------------------------------------------------------------------------------------|
+| bool get isValid | Returns `true` if the form field is valid based on the current value and validation rules. |
 
 ---
 
-### In Presentation Layer
 
-```dart
+## Examples
 
-void _change() => _form.password.value = _passwordController.text;
+- [Login Form](./example/lib/screens/login_screen.dart)
+- [Add Forms to Multiple Form](./example/lib/screens/create_quest_screen.dart)
+- [Infinity Forms](./example/lib/screens/multi_screen.dart)
+- [Hard Custom Field](./example/lib/screens/exception_multi_screen.dart)
 
-bool _showException(bool? isHaveException) {
-  if (isHaveException == null) return false;
-  return !isHaveException;
-}
 
-FFormBuilder(
-  form: _form,
-  builder: (context, form) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextField(
-          controller: _passwordController,
-          decoration: const InputDecoration(
-            labelText: 'Password',
-          ),
-        ),
-        Visibility(
-          visible: form.password.exception != null,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 5),
-              if (_showException(form.password.exception?.isMinLengthValid))
-                const Text('Password must be at least 8 characters'),
-              const SizedBox(height: 5),
-              if (_showException(form.password.exception?.isSpecialCharValid))
-                const Text('Password must have special character'),
-              const SizedBox(height: 5),
-              if (_showException(form.password.exception?.isNumberValid))
-                const Text('Password must have number'),
-              const SizedBox(height: 5),
-            ],
-          ),
-        ),
-        ElevatedButton(
-          onPressed: _submit,
-          child: const Text('Submit'),
-        ),
-        const SizedBox(height: 10),
-        Text('Form is Valid: ${form.isValid}')
-      ],
-    );
-  },
-)
-```
+## How to Contribute
 
-### Notion
-
-When use FFormException for validation, you need override getter isValid for normalize validation result.
-
-```dart
-class PasswordException extends FFormException {
-
-  @override
-  bool get isValid => true; // validation result in FForm is valid 
-
-  // or 
-
-  @override
-  bool get isValid => false; // validation result in FForm is not valid
-} 
-
-```
-
----
-
-## Important Note 📝
-
-The `allFieldUpdateCheck` in `FForm` property plays a critical role in determining how `FFormBuilder` reacts to updates in form fields. This property specifies whether every field update will trigger a rebuild of the `FFormBuilder` or if the rebuild occurs exclusively when the `isValid` or `isInvalid` getters are invoked.
-
-- **When `allFieldUpdateCheck` is enabled (set to `true`)**: Any change to a field's value leads to an immediate rebuild of the `FFormBuilder`, ensuring the UI is always in sync with the form's state. This is ideal for forms where field interdependencies are common, and you need real-time feedback.
-
-- **When `allFieldUpdateCheck` is disabled (set to `false`)**: `FFormBuilder` will only rebuild when you explicitly check the form's validity through `isValid` or `isInvalid`. This approach can enhance performance for forms with a large number of fields or complex validation rules, as it reduces the number of rebuilds.
-
-Choose the setting that best fits your form's requirements and user experience goals. This feature offers you the flexibility to optimize form interactions and performance in your Flutter apps. 🚀
-
-This README aims to guide you through the essentials of using the `FForm` for creating validated form and `FFormBuilder` for assembling and managing a form within your Flutter application, all while keeping things fresh and engaging. 🌟
+1. Fork the repository
+2. Clone the repository
+3. Create a new branch
+4. Make your changes
+5. Commit your changes
+6. Push to the branch
+7. Submit a pull request
+8. Wait for approval
+9. Happy coding!

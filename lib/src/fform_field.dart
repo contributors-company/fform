@@ -12,19 +12,19 @@ abstract class FFormField<T, E> {
   GlobalKey key = GlobalKey();
 
   /// Function to call when the value of the field changes.
-  List<FFormFieldListener<T, E>> listeners = [];
+  final List<FFormFieldListener<T, E>> _listeners = [];
 
   /// add listener to the field.
   void addListener(FFormFieldListener<T, E> callback) =>
-      listeners.add(callback);
+      _listeners.add(callback);
 
   /// remove listener from the field.
   void removeListener(FFormFieldListener<T, E> callback) =>
-      listeners.remove(callback);
+      _listeners.remove(callback);
 
   /// Function to call when the value of the field changes.
   void _callListeners() {
-    for (var listener in listeners) {
+    for (var listener in _listeners) {
       listener(FFormFieldResponse(value, exception));
     }
   }
@@ -54,7 +54,7 @@ abstract class FFormField<T, E> {
   }
 
   /// Check if the field is invalid.
-  bool get isNotValid => !isValid;
+  bool get isInvalid => !isValid;
 
   /// Get the exception of the field.
   E? get exception {

@@ -1,3 +1,8 @@
+## 3.0.0
+
+* Rename getter/setters, Add FFormProvider for easy use, new documentation and fun
+
+
 ## 2.2.0
 
 * Add FFormException for in-depth error handling
