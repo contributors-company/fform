@@ -1,3 +1,7 @@
+## 4.0.0
+
+* moved FFormBuilder, FFormProvider to fform_flitter
+
 ## 3.0.0
 
 * Rename getter/setters, Add FFormProvider for easy use, new documentation and fun

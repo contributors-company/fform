@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 part 'fform_field.dart';
 part 'fform_exception.dart';
 part 'types.dart';

@@ -1,4 +1,0 @@
-enum Children {
-  have,
-  notHave,
-}

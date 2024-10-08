@@ -13,4 +13,4 @@ class FFormFieldResponse<T, E> {
 }
 
 /// FFormListener is a function that takes a FForm as a parameter.
-typedef FFormListener<T extends FForm> = VoidCallback;
+typedef FFormListener<T extends FForm> = void Function();
