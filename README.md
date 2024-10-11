@@ -34,6 +34,13 @@ dependencies:
   fform: ^latest_version
 ```
 
+## If you are using Flutter, you will also need to add the [`fform_flutter`](https://pub.dev/packages/fform_flutter) package:
+```yaml
+dependencies:
+  fform: ^latest_version
+  fform_flutter: ^latest_version
+```
+
 Don't forget to run `flutter pub get` in your terminal to install the package.
 
 ---
