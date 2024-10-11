@@ -18,8 +18,6 @@
     - [`FFormField` API](#fformfield-api)
   - [`FForm`](#fform)
     - [`FForm` API](#fform-api)
-  - [`FFormBuilder`](#fformbuilder)
-  - [`FFormProvider`](#fformprovider)
   - [`FFormException`](#fformexception)
     - [`FFormException` API](#fformexception-api)
   
@@ -29,7 +27,7 @@
 
 ## Step 1: Installation
 
-First things first, let's get the FForm package into your Flutter project. Add FForm to your `pubspec.yaml` file under dependencies:
+First things first, let's get the FForm package into your Dart project. Add FForm to your `pubspec.yaml` file under dependencies:
 
 ```yaml
 dependencies:
@@ -42,13 +40,11 @@ Don't forget to run `flutter pub get` in your terminal to install the package.
 
 ## Overview
 
-FForm is a high-level Flutter package designed to make form creation and management a breeze, with simplified field validation. It offers two main components: `FFormField` and `FFormBuilder`, that together bring ease and flexibility to your form handling in Flutter apps.
+FForm is a high-level Dart package designed to make form creation and management a breeze, with simplified field validation. 
 
 - `FFormField<T, E>`: A base class for all form fields supporting values, on-the-fly validation, and change handling.
-- `FFormBuilder<F extends FForm>`: A widget that constructs and manages the form state, utilizing streams to refresh the UI dynamically as data changes.
 - `FForm`: A base class for creating custom form classes, allowing you to add specific methods and properties to your forms.
 - `FFormException`: A base class for creating custom exceptions for form fields, enabling you to define custom validation rules and error messages.
-- `FFormProvider`: A widget that allows you to access the form in the widget tree without passing it as a parameter.
 
 ## Why It Rocks 🎸
 
@@ -61,10 +57,56 @@ FForm is a high-level Flutter package designed to make form creation and managem
 
 ## Previews
 
-| Login Form                                                   | Add Forms to Multiple Form                                   | Infinity Forms                                               |
-|--------------------------------------------------------------|--------------------------------------------------------------|--------------------------------------------------------------|
-| ![](https://github.com/AlexHCJP/fform/raw/main/assets/1.gif) | ![](https://github.com/AlexHCJP/fform/raw/main/assets/2.gif) | ![](https://github.com/AlexHCJP/fform/raw/main/assets/3.gif) |
-| ![](https://github.com/AlexHCJP/fform/raw/main/assets/4.gif) |                                                              |                                                              |
+```dart
+
+void main(List<String> arguments) {
+  final form = DefaultForm();
+
+  form.title.addListener(printResponse);
+
+  final printDefaultForm = printForm(form);
+
+  form.addListener(printDefaultForm);
+  printTitle(form.title);
+
+  form.title.value = 'He';
+
+  form.title.value = 'Hello';
+
+  printTitle(form.title);
+
+  form.removeListener(printDefaultForm);
+  form.title.removeListener(printResponse);
+}
+
+void printTitle(FFormField title) {
+  print(
+      'Title: ${title.value}, Exception: ${title.exception != null ? title.exception.toString() : 'null'}');
+}
+
+void printResponse(FFormFieldResponse response) {
+  print(
+      'Response: ${response.value}, Exception: ${response.exception != null ? response.exception.toString() : 'null'}');
+}
+
+void Function() printForm(FForm form) => () {
+      print('Form: ${form.fields}');
+    };
+
+/*
+
+RESULT:
+
+Title: , Exception: titleEmpty
+Response: He, Exception: titleMinLength
+Response: Hello, Exception: null
+Title: Hello, Exception: null
+
+ */
+
+
+```
+
 
 
 ## Usage Examples
@@ -106,10 +148,6 @@ class EmailField extends FFormField<String, EmailError> {
 ```
 
 #### `FFormField` API
-
-| GlobalKey key | A unique key for identifying the form field widget. It is used to manage the state of the widget and to access it in the widget tree. |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| GlobalKey key |                                                                                                                                       |
 
 | Getters / Setters     | Description                                                                          |
 |-----------------------|--------------------------------------------------------------------------------------|
@@ -202,72 +240,6 @@ class LoginForm extends FForm {
 | void notifyListeners()                      | Notifies all registered listeners of a change in the form's state. This is used to trigger updates in the UI or other parts of the application that depend on the form's state. |
 | T get<T extends FFormField>()               | Retrieves the first field of a specific type from the form. This is useful for accessing specific fields without knowing their exact position in the form.                      |
 
-### `FFormBuilder`
-
-`FFormBuilder` is a widget that constructs and manages the form state, utilizing streams to refresh the UI dynamically as data changes. It provides a builder function that takes the form and returns a widget tree based on the form's state.
-
-#### Example
-
-This is an example of how to use `FFormBuilder` to create a form with a single field. The builder function takes the form as a parameter and returns a widget tree based on the form's state.
-
-```dart
-void _submit() {
-  if(_form.isValid) { // .isValid or .isInvalid start rebuild in FFormBuilder and returned boolean
-    print('Form Valid');
-  };
-}
-
-@override
-Widget build(BuildContext context) {
-  return FFormBuilder<LoginForm>(
-    form: _form,
-    builder: (context, form) {
-      EmailField email = form.email; // or FFormProvider.of<LoginForm>(context).get<NameField>()
-      
-      return Column(
-        children: [
-          TextField(
-            key: email.key,
-            controller: _emailController,
-            decoration: InputDecoration(
-              labelText: 'Email',
-              errorText: email.exception.toString(),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: _submit,
-            child: const Text('Submit'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-```
-
----
-
-### `FFormProvider`
-
-`FFormProvider` is a widget that allows you to access the form in the widget tree without passing it as a parameter.
-
-#### Example
-
-```dart
-FFormBuilder<LoginForm>(
-  form: _form,
-  builder: (context, form) {
-    
-    FFormProvider.of<LoginForm>(context).email; // or form.email;
-    FFormProvider.of<LoginForm>(context).get<NameField>(); // or form.get<NameField>();
-
-    return YourForm();
-  },
-)
-```
-
----
 
 ### FFormException
 
@@ -314,25 +286,3 @@ class PasswordField extends FFormField<String, PasswordValidationException> {
 |------------------|--------------------------------------------------------------------------------------------|
 | bool get isValid | Returns `true` if the form field is valid based on the current value and validation rules. |
 
----
-
-
-## Examples
-
-- [Login Form](./example/lib/screens/login_screen.dart)
-- [Add Forms to Multiple Form](./example/lib/screens/create_quest_screen.dart)
-- [Infinity Forms](./example/lib/screens/multi_screen.dart)
-- [Hard Custom Field](./example/lib/screens/exception_multi_screen.dart)
-
-
-## How to Contribute
-
-1. Fork the repository
-2. Clone the repository
-3. Create a new branch
-4. Make your changes
-5. Commit your changes
-6. Push to the branch
-7. Submit a pull request
-8. Wait for approval
-9. Happy coding!
