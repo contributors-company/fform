@@ -15,10 +15,14 @@
   - [Why It Rocks 🎸](#why-it-rocks-)
 - [Usage Example](#usage-examples)
   - [`FFormField`](#fformfield)
+    - [Example](#example)
+    - [And you can use AsyncValidator](#and-you-can-use-asyncvalidator)
     - [`FFormField` API](#fformfield-api)
   - [`FForm`](#fform)
+    - [Example](#example-1)
     - [`FForm` API](#fform-api)
   - [`FFormException`](#fformexception)
+    - [Example](#example-2)
     - [`FFormException` API](#fformexception-api)
   
 
@@ -61,12 +65,17 @@ FForm is a high-level Dart package designed to make form creation and management
 - **Reactive Forms for the Win**: Leverages streams for tracking form state changes, ensuring your UI is always in sync.
 - **Multiple Forms, No Problem**: Create multiple forms with custom fields and validation rules, all managed seamlessly by FForm.
 - **Custom Exceptions for Custom Needs**: Define custom exceptions for form fields to handle complex validation rules and error messages with ease.
+- **AsyncValidator**: Supports asynchronous validation for form fields, allowing you to validate data against external sources or APIs.
 
 ## Previews
 
 ```dart
 
-void main(List<String> arguments) {
+import 'package:fform/fform.dart';
+
+import './forms/default_form.dart';
+
+void main(List<String> arguments) async {
   final form = DefaultForm();
 
   form.title.addListener(printResponse);
@@ -88,27 +97,26 @@ void main(List<String> arguments) {
 
 void printTitle(FFormField title) {
   print(
-      'Title: ${title.value}, Exception: ${title.exception != null ? title.exception.toString() : 'null'}');
+          'Title: ${title.value}, Exception: ${title.exception != null ? title.exception.toString() : 'null'}');
 }
 
 void printResponse(FFormFieldResponse response) {
   print(
-      'Response: ${response.value}, Exception: ${response.exception != null ? response.exception.toString() : 'null'}');
+          'Response: ${response.value}, Exception: ${response.exception != null ? response.exception.toString() : 'null'}');
 }
 
 void Function() printForm(FForm form) => () {
-      print('Form: ${form.fields}');
-    };
+  print('Form: ${form.fields}');
+};
 
 /*
-
 RESULT:
 
 Title: , Exception: titleEmpty
 Response: He, Exception: titleMinLength
 Response: Hello, Exception: null
 Title: Hello, Exception: null
-
+Response: Hello, Exception: asyncError
  */
 
 
@@ -149,6 +157,28 @@ class EmailField extends FFormField<String, EmailError> {
   @override
   EmailError? validator(value) {
     if (value.isEmpty) return EmailError.empty;
+    return null;
+  }
+}
+```
+
+### And you can use AsyncValidator
+
+```dart
+class EmailField extends FFormField<String, EmailError> with AsyncField<String, EmailError> {
+
+  EmailField({required String value}) : super(value);
+
+  @override
+  EmailError? validator(value) {
+    if (value.isEmpty) return EmailError.empty;
+    return null;
+  }
+
+  @override
+  Future<EmailError?> asyncValidator(value) async {
+    await Future.delayed(Duration(seconds: 1));
+    if (!value.contains('@')) return EmailError.not;
     return null;
   }
 }

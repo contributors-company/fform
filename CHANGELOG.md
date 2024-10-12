@@ -1,3 +1,7 @@
+## 4.1.0
+
+* Add AsyncValidator
+
 ## 4.0.1
 
 * Add info from fform_flitter

@@ -6,6 +6,8 @@ part of 'fform.dart';
 /// It has a method to check if the field is invalid.
 /// It has a method to get the exception of the field.
 abstract class FFormField<T, E> {
+  E? _asyncException;
+
   /// Value of the field.
   T _value;
 
@@ -56,10 +58,23 @@ abstract class FFormField<T, E> {
 
   /// Get the exception of the field.
   E? get exception {
-    final exception = validator(value);
+    E? exception = validator(value);
 
     // If the exception is null, return null.
-    if (exception == null) return null;
+    if (exception == null) {
+      if (_asyncException != null) {
+        final exception = _asyncException;
+        _asyncException = null;
+        return exception;
+      }
+      return null;
+    }
+
+    if (this is AsyncField<T, E>) {
+      (this as AsyncField<T, E>)._getException().then((value) {
+        _asyncException = value;
+      });
+    }
 
     // If the exception is not a FFormException, return the exception.
     if (exception is! FFormException) return exception;

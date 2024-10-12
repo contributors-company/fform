@@ -1,6 +1,9 @@
+import 'dart:async';
+
 part 'fform_field.dart';
 part 'fform_exception.dart';
 part 'types.dart';
+part 'mixin_async_validator.dart';
 
 /// FForm is a class that represents a form.
 /// It has a list of fields and a list of answers.

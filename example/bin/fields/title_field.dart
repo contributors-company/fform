@@ -2,7 +2,8 @@ import 'package:fform/fform.dart';
 
 enum TitleException {
   empty,
-  minLength;
+  minLength,
+  asyncError;
 
   @override
   String toString() {
@@ -12,12 +13,13 @@ enum TitleException {
       case minLength:
         return 'titleMinLength';
       default:
-        return 'invalidFormatTitle';
+        return 'asyncError';
     }
   }
 }
 
-class TitleField extends FFormField<String, TitleException> {
+class TitleField extends FFormField<String, TitleException>
+    with AsyncField<String, TitleException> {
   TitleField({String? value}) : super(value ?? '');
 
   @override
@@ -25,5 +27,11 @@ class TitleField extends FFormField<String, TitleException> {
     if (value.isEmpty) return TitleException.empty;
     if (value.length < 3) return TitleException.minLength;
     return null;
+  }
+
+  @override
+  Future<TitleException?> asyncValidator() async {
+    await Future.delayed(Duration(seconds: 1));
+    return TitleException.asyncError;
   }
 }
