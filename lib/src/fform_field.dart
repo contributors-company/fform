@@ -43,7 +43,6 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
   /// If the field is valid, it returns true.
   @nonVirtual
   Future<bool> check() async {
-    print(validator(value));
     switch (validator(value)) {
       case null:
         {
