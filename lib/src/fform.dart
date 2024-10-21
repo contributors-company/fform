@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:fform/fform.dart';
 import 'package:flutter/foundation.dart';
 
-
-
 typedef _NullObject = Object?;
 
 /// FForm is a class that represents a form.
@@ -34,7 +32,8 @@ abstract class FForm extends ChangeNotifier {
   List<FForm> get subForms => [];
 
   /// List of all fields of the form.
-  List<FFormField<_NullObject, _NullObject>> get _allFields => [...fields, ...subForms.expand((element) => element._allFields)];
+  List<FFormField<_NullObject, _NullObject>> get _allFields =>
+      [...fields, ...subForms.expand((element) => element._allFields)];
 
   /// List of answers of the fields.
   @nonVirtual
@@ -60,7 +59,6 @@ abstract class FForm extends ChangeNotifier {
   /// List of exceptions of the sub forms.
   @nonVirtual
   List<_NullObject> get exceptionSubForms => answersSubForms.where((element) => element != null).toList();
-
 
   /// List of all exceptions of the fields and sub forms.
   @nonVirtual
