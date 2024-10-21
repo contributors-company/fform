@@ -1,5 +1,6 @@
 import 'package:fform/fform.dart';
 import 'package:flutter/widgets.dart';
+import 'package:meta/meta.dart';
 
 /// FFormField is a base class for all form fields.
 /// It has a value and a validator.
@@ -13,8 +14,10 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
   E? _exception;
 
   /// Exception of the field.
+  @nonVirtual
   E? get exception => _exception;
 
+  @nonVirtual
   set exception(E? value) {
     if (identical(value, exception)) return;
     _exception = value;
@@ -25,6 +28,7 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
   E? validator(T value);
 
   /// Check if the field is valid.
+  @nonVirtual
   bool get isValid {
     if (_exception == null) return true;
     if (_exception case FFormException exception) return exception.isValid;
@@ -32,11 +36,14 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
   }
 
   /// Check if the field is invalid.
+  @nonVirtual
   bool get isInvalid => !isValid;
 
   /// Check if the field is valid.
   /// If the field is valid, it returns true.
+  @nonVirtual
   Future<bool> check() async {
+    print(validator(value));
     switch (validator(value)) {
       case null:
         {

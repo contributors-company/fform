@@ -24,7 +24,7 @@ class _CreateQuestScreenState extends State<CreateQuestScreen> {
       tasks: _multiTaskController.value.map((e) => e.value).toList(),
     );
 
-    if (form.isValid) {
+    if (form.check()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.greenAccent,

@@ -47,7 +47,7 @@ class _MultiScreenState extends State<MultiScreen> {
   }
 
   void _check() {
-    if (_form.isValid) {
+    if (_form.check()) {
       if (kDebugMode) {
         print('Form is valid');
       }

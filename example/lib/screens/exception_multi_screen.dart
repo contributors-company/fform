@@ -32,7 +32,7 @@ class _ExceptionMultiScreenState extends State<ExceptionMultiScreen> {
   }
 
   void _submit() {
-    if (_form.isValid) {
+    if (_form.check()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.greenAccent,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fform/fform.dart';
+import 'package:meta/meta.dart';
 
 /// A mixin that provides asynchronous validation for a form field.
 ///
@@ -22,6 +23,7 @@ mixin AsyncField<T, E> on FFormField<T, E> {
   ///
   /// Returns a [Future] that completes with an error of type [E] if validation fails,
   /// or `null` if validation succeeds.
+  @nonVirtual
   Future<E?> getAsyncException() async {
     completer = Completer<E?>();
 
