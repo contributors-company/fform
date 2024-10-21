@@ -1,13 +1,38 @@
 name: fform
 description: FForm is a dart package to build forms with a lot of fields and validations.
 version: 4.1.0
+
 homepage: https://github.com/AlexHCJP/fform
 
-environment:
-  sdk: ^3.5.3
+repository: https://github.com/AlexHCJP/fform
 
+issue_tracker: https://github.com/AlexHCJP/fform/issues
+
+topics:
+  - form
+  - validation
+  - fields
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
-  lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
 
 #flutter:
