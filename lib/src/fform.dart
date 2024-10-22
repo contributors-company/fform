@@ -104,15 +104,12 @@ abstract class FForm extends ChangeNotifier {
 
   /// Get the first field of a specific type.
   @nonVirtual
-  T get<T extends FFormField<_NullObject, _NullObject>>() =>
-      fields.whereType<T>().cast<T>().first;
+  T get<T extends FFormField<_NullObject, _NullObject>>() => fields.whereType<T>().cast<T>().first;
 
   /// List of all fields of the form.
-  List<FFormField<_NullObject, _NullObject>> get _allFields =>
-      [...fields, ..._subFormFields];
+  List<FFormField<_NullObject, _NullObject>> get _allFields => [...fields, ..._subFormFields];
 
-  List<FFormField<_NullObject, _NullObject>> get _subFormFields =>
-      [for (final subForm in subForms) ...subForm.fields];
+  List<FFormField<_NullObject, _NullObject>> get _subFormFields => [for (final subForm in subForms) ...subForm.fields];
 
   /// List of answers of the fields.
   @nonVirtual
@@ -133,23 +130,19 @@ abstract class FForm extends ChangeNotifier {
 
   /// List of exceptions of the fields.
   @nonVirtual
-  List<_NullObject> get exceptionFields =>
-      answerFields.where((element) => element != null).toList();
+  List<_NullObject> get exceptionFields => answerFields.where((element) => element != null).toList();
 
   /// List of exceptions of the sub forms.
   @nonVirtual
-  List<_NullObject> get exceptionSubForms =>
-      answersSubForms.where((element) => element != null).toList();
+  List<_NullObject> get exceptionSubForms => answersSubForms.where((element) => element != null).toList();
 
   /// List of all exceptions of the fields and sub forms.
   @nonVirtual
-  List<_NullObject> get exceptions =>
-      answers.where((element) => element != null).toList();
+  List<_NullObject> get exceptions => answers.where((element) => element != null).toList();
 
   /// Check if the form is valid.
   @nonVirtual
-  bool get isValid => _allFields.fold(
-      true, (previousValue, field) => previousValue && field.isValid);
+  bool get isValid => _allFields.fold(true, (previousValue, field) => previousValue && field.isValid);
 
   /// Check if the form is invalid.
   @nonVirtual
@@ -162,6 +155,5 @@ abstract class FForm extends ChangeNotifier {
 
   ///Get the last field with an exception.
   @nonVirtual
-  FFormField<_NullObject, _NullObject>? get lastInvalidField =>
-      _allFields.lastWhereOrNull((field) => field.isInvalid);
+  FFormField<_NullObject, _NullObject>? get lastInvalidField => _allFields.lastWhereOrNull((field) => field.isInvalid);
 }

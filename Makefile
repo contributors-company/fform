@@ -4,7 +4,7 @@ PWD   := $(shell pwd)
 .DEFAULT_GOAL := all
 .PHONY: all
 all: ## build pipeline
-all: setup codegen format analyze test build
+all: setup format analyze test dartdoc
 
 .PHONY: precommit
 precommit: ## validate the branch before commit
@@ -29,8 +29,6 @@ setup: ## setup environment
 	$(call print-target)
 	@fvm dart --disable-analytics
 	@fvm flutter config --no-analytics --enable-android --enable-web
-	@yes | fvm flutter doctor --android-licenses
-	@fvm flutter precache --universal --android --web
 	$(call get)
 
 .PHONY: version
@@ -52,15 +50,6 @@ upgrade: get ## upgrade dependencies
 outdated: ## check for outdated dependencies
 	$(call print-target)
 	@fvm flutter pub outdated
-
-.PHONY: codegen
-codegen: get ## run codegenerators
-	$(call print-target)
-	@fvm dart run build_runner build --delete-conflicting-outputs
-	$(call fix)
-
-.PHONY: gen
-gen: codegen
 
 .PHONY: fix
 fix: get ## format and fix code
@@ -104,11 +93,6 @@ coverage: test ## generate coverage report
 	$(call print-target)
 	@lcov --list coverage/lcov.info
 
-.PHONY: build
-build: get ## build the application
-	$(call print-target)
-	@fvm flutter build web --web-renderer canvaskit --release --source-maps --base-href / --dart-define VERSION=0.0.0 --dart-define-from-file=.env.dev
-
 .PHONY: diff
 diff: ## git diff
 	$(call print-target)
@@ -118,3 +102,9 @@ diff: ## git diff
 define print-target
     @printf "Executing target: \033[36m$@\033[0m\n"
 endef
+
+
+.PHONY: dartdoc
+dartdoc: ## generate dart documentation
+	$(call print-target)
+	dartdoc
