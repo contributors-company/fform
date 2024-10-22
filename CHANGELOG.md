@@ -1,3 +1,7 @@
+## 5.0.3
+
+* Change Dart SDK version to 3.0.0
+
 ## 5.0.2
 
 * Create Documentation
