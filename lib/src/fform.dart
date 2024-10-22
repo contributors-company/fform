@@ -30,16 +30,17 @@ abstract class FForm extends ChangeNotifier {
   List<FFormField<_NullObject, _NullObject>> fields;
 
   /// List of sub forms of the form.
+
   List<FForm> subForms;
 
   @override
   void dispose() {
     super.dispose();
     for (final field in fields) {
-      field.removeListener(notifyListeners);
+      field..removeListener(notifyListeners)..dispose();
     }
     for (final form in subForms) {
-      form.removeListener(notifyListeners);
+      form..removeListener(notifyListeners)..dispose();
     }
   }
 

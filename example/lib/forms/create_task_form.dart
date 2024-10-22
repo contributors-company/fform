@@ -36,11 +36,4 @@ class CreateQuestTaskForm extends FForm {
     this.interval.value = interval;
   }
 
-  @override
-  List<FFormField> get fields => [
-        title,
-        description,
-        descriptionReport,
-        interval,
-      ];
 }
