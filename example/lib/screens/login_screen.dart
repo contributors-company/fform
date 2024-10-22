@@ -43,24 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       }
-      for (var element in _form.exceptions) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.redAccent,
-            content: Row(
-              children: [
-                const Icon(
-                  Icons.lock,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 10),
-                Text(element.toString(),
-                    style: const TextStyle(color: Colors.white))
-              ],
-            ),
-          ),
-        );
-      }
     });
   }
 
@@ -98,20 +80,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
-                      errorText: form.email.exception.toString(),
+                      errorText: _form.email.exception.toString(),
                     ),
                   ),
                   TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      errorText: form.password.exception.toString(),
+                      errorText: _form.password.exception.toString(),
                     ),
                   ),
                   ElevatedButton(
                     onPressed: _login,
                     child: const Text('Login'),
                   ),
+                  Text(_form.isValid.toString())
                 ],
               );
             },

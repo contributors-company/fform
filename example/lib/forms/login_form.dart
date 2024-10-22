@@ -10,7 +10,7 @@ class LoginForm extends FForm {
   LoginForm({
     required this.email,
     required this.password,
-  });
+  }) : super(fields: [email, password]);
 
   factory LoginForm.zero() {
     return LoginForm(
@@ -19,17 +19,11 @@ class LoginForm extends FForm {
     );
   }
 
-  change({
+  void change({
     required String email,
     required String password,
   }) {
     this.email.value = email;
     this.password.value = password;
   }
-
-  @override
-  List<FFormField> get fields => [
-        email,
-        password,
-      ];
 }

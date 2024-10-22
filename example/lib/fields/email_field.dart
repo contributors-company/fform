@@ -18,7 +18,8 @@ enum EmailError {
   }
 }
 
-class EmailField extends FFormField<String, EmailError> with AsyncField<String, EmailError> {
+class EmailField extends FFormField<String, EmailError>
+    with AsyncField<String, EmailError> {
   bool isRequired;
 
   EmailField({required String value, this.isRequired = true}) : super(value);
@@ -32,8 +33,9 @@ class EmailField extends FFormField<String, EmailError> with AsyncField<String, 
   }
 
   @override
-  Future<EmailError?> asyncValidator(value) async => await Future.delayed(const Duration(seconds: 1), () {
-    if(value == 'alexganbert@gmail.com') return null;
-    return EmailError.email;
-  });
+  Future<EmailError?> asyncValidator(value) async =>
+      await Future.delayed(const Duration(seconds: 1), () {
+        if (value == 'alexganbert@gmail.com') return null;
+        return EmailError.email;
+      });
 }

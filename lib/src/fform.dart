@@ -14,9 +14,32 @@ typedef _NullObject = Object?;
 /// It has a method to check if the form is invalid.
 abstract class FForm extends ChangeNotifier {
   /// Constructor to initialize the form.
-  FForm() {
+  FForm({
+    this.fields = const [],
+    this.subForms = const [],
+  }) {
     for (final field in fields) {
       field.addListener(notifyListeners);
+    }
+    for (final form in subForms) {
+      form.addListener(notifyListeners);
+    }
+  }
+
+  /// List of fields of the form.
+  List<FFormField<_NullObject, _NullObject>> fields;
+
+  /// List of sub forms of the form.
+  List<FForm> subForms;
+
+  @override
+  void dispose() {
+    super.dispose();
+    for (final field in fields) {
+      field.removeListener(notifyListeners);
+    }
+    for (final form in subForms) {
+      form.removeListener(notifyListeners);
     }
   }
 
@@ -25,15 +48,64 @@ abstract class FForm extends ChangeNotifier {
   bool get hasCheck => _hasCheck;
   bool _hasCheck = false;
 
-  /// List of fields of the form.
-  List<FFormField<_NullObject, _NullObject>> get fields;
+  /// Add a field to the form.
+  @nonVirtual
+  void addField(FFormField<_NullObject, _NullObject> field) {
+    field.addListener(notifyListeners);
+    fields.add(field);
+  }
 
-  /// List of sub forms of the form.
-  List<FForm> get subForms => [];
+  /// Remove a field from the form.
+  @nonVirtual
+  void removeField(FFormField<_NullObject, _NullObject> field) {
+    field.removeListener(notifyListeners);
+    fields.remove(field);
+  }
+
+  /// Add a sub form to the form.
+  @nonVirtual
+  void addSubForm(FForm form) {
+    form.addListener(notifyListeners);
+    subForms.add(form);
+  }
+
+  /// Remove a sub form from the form.
+  @nonVirtual
+  void removeSubForm(FForm form) {
+    form.removeListener(notifyListeners);
+    subForms.remove(form);
+  }
+
+  /// Check if the form is valid.
+  @nonVirtual
+  Future<bool> checkAsync() async {
+    await Future.wait([for (final element in _allFields) element.check()]);
+    return _check();
+  }
+
+  /// Check if the form is valid.
+  @nonVirtual
+  bool check() {
+    Future.wait([for (final element in _allFields) element.check()]);
+    return _check();
+  }
+
+  bool _check() {
+    _hasCheck = true;
+    notifyListeners();
+    return isValid;
+  }
+
+  /// Get the first field of a specific type.
+  @nonVirtual
+  T get<T extends FFormField<_NullObject, _NullObject>>() =>
+      fields.whereType<T>() as T;
 
   /// List of all fields of the form.
-  List<FFormField<_NullObject, _NullObject>> get _allFields =>
-      [...fields, ...subForms.expand((element) => element._allFields)];
+  List<FFormField<_NullObject, _NullObject>> get _allFields => [
+        ...fields,
+        ...subForms.expand((element) => element._allFields),
+      ];
 
   /// List of answers of the fields.
   @nonVirtual
@@ -54,37 +126,18 @@ abstract class FForm extends ChangeNotifier {
 
   /// List of exceptions of the fields.
   @nonVirtual
-  List<_NullObject> get exceptionFields => answerFields.where((element) => element != null).toList();
+  List<_NullObject> get exceptionFields =>
+      answerFields.where((element) => element != null).toList();
 
   /// List of exceptions of the sub forms.
   @nonVirtual
-  List<_NullObject> get exceptionSubForms => answersSubForms.where((element) => element != null).toList();
+  List<_NullObject> get exceptionSubForms =>
+      answersSubForms.where((element) => element != null).toList();
 
   /// List of all exceptions of the fields and sub forms.
   @nonVirtual
-  List<_NullObject> get exceptions => answers.where((element) => element != null).toList();
-
-  /// Check if the form is valid.
-  @nonVirtual
-  Future<bool> checkAsync() async {
-    await Future.wait([for (final element in fields) element.check()]);
-    await Future.wait([for (final element in subForms) element.checkAsync()]);
-    return _check();
-  }
-
-  /// Check if the form is valid.
-  @nonVirtual
-  bool check() {
-    Future.wait([for (final element in fields) element.check()]);
-    Future.wait([for (final element in subForms) element.checkAsync()]);
-    return _check();
-  }
-
-  bool _check() {
-    _hasCheck = true;
-    notifyListeners();
-    return isValid;
-  }
+  List<_NullObject> get exceptions =>
+      answers.where((element) => element != null).toList();
 
   /// Check if the form is valid.
   @nonVirtual
@@ -112,7 +165,15 @@ abstract class FForm extends ChangeNotifier {
     return null;
   }
 
-  /// Get the first field of a specific type.
-  @nonVirtual
-  T get<T extends FFormField<_NullObject, _NullObject>>() => fields.whereType<T>() as T;
+  /// Check if the field is valid.
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return false;
+    return other is FForm &&
+        other.isValid == isValid;
+  }
+
+  /// Check if the field is valid.
+  @override
+  int get hashCode => Object.hashAll([fields, isValid]);
 }

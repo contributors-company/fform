@@ -6,7 +6,7 @@ typedef FFormWidgetBuilder<T> = Widget Function(BuildContext context, T form);
 
 /// FFormBuilder is a widget that builds a form and manages the state of the form.
 /// It is used to create a form and manage the state of the form.
-class FFormBuilder<T extends FForm> extends StatefulWidget {
+class FFormBuilder<T extends FForm> extends StatelessWidget {
   /// Creates a FFormBuilder.
   const FFormBuilder({
     required this.form,
@@ -20,53 +20,18 @@ class FFormBuilder<T extends FForm> extends StatefulWidget {
   /// The builder to build the form.
   final FFormWidgetBuilder<T> builder;
 
-  @override
-  State<FFormBuilder<T>> createState() => FFormBuilderState<T>();
-}
-
-/// The state of the FFormBuilder.
-class FFormBuilderState<T extends FForm> extends State<FFormBuilder<T>> {
-  @override
-  void initState() {
-    super.initState();
-
-    /// Add a listener to the stream of the form.
-    widget.form.addListener(_listenForm);
-  }
-
-  @override
-  void didUpdateWidget(covariant FFormBuilder<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.form == widget.form) return;
-
-    /// Remove the listener to the stream of the old form.
-    oldWidget.form.removeListener(_listenForm);
-
-    /// Add a listener to the stream of the new form.
-    widget.form.addListener(_listenForm);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    /// Remove the listener to the stream of the form.
-    widget.form.removeListener(_listenForm);
-  }
-
-  /// Listen to the form and update the state.
-  void _listenForm() => setState(() {});
-
   /// Build the form using the builder.
   @override
-  Widget build(BuildContext context) => FFormProvider<T>(
-        notifier: widget.form,
+  Widget build(BuildContext context) => ListenableBuilder(
+    listenable: form,
+    builder: (context, child) => FFormProvider<T>(
+        form: form,
         child: Builder(
-          builder: (context) => widget.builder(
+          builder: (context) => builder(
             context,
-            widget.form,
+            form,
           ),
         ),
-      );
+      ),
+  );
 }

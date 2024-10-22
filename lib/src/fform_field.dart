@@ -75,7 +75,9 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return false;
-    return other is FFormField<T, E> && other.value == value && other.isValid == isValid;
+    return other is FFormField<T, E> &&
+        other.value == value &&
+        other.isValid == isValid;
   }
 
   /// Check if the field is valid.
