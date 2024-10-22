@@ -1,10 +1,11 @@
-import 'package:example/extension/list_map_with_index.dart';
+import 'package:example/src/extension/list_map_with_index.dart';
 import 'package:fform/fform.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/controllers.dart';
 import '../forms/forms.dart';
-import '../widgets/widgets.dart';
+import '../widgets/card_task.dart';
+import '../widgets/drawer.dart';
 
 class CreateQuestScreen extends StatefulWidget {
   const CreateQuestScreen({super.key});

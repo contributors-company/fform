@@ -5,7 +5,6 @@ packages/
 .vscode/
 build/
 test/
-example/
 pictures/
 
 # Configuration and system files

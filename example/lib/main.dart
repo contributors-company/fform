@@ -1,7 +1,8 @@
-import 'package:example/screens/create_quest_screen.dart';
-import 'package:example/screens/exception_multi_screen.dart';
-import 'package:example/screens/multi_screen.dart';
-import 'package:example/screens/login_screen.dart';
+
+import 'package:example/src/screens/create_quest_screen.dart';
+import 'package:example/src/screens/exception_multi_screen.dart';
+import 'package:example/src/screens/login_screen.dart';
+import 'package:example/src/screens/multi_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

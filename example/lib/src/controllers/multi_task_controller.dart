@@ -1,7 +1,7 @@
-import 'package:example/controllers/task_controller.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/models.dart';
+import 'controllers.dart';
 
 class MultiTaskController extends ValueNotifier<List<TaskController>> {
   MultiTaskController() : super([TaskController(TaskModel.zero())]) {

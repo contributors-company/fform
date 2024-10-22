@@ -1,7 +1,8 @@
-import 'package:example/forms/forms.dart';
-import 'package:example/widgets/drawer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../forms/forms.dart';
+import '../widgets/drawer.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
