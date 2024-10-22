@@ -171,6 +171,7 @@ abstract class FForm extends ChangeNotifier {
   bool operator ==(Object other) {
     if (identical(this, other)) return false;
     return other is FForm &&
+        other.answers == answers &&
         other.isValid == isValid;
   }
 
