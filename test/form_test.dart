@@ -49,7 +49,8 @@ void main() {
       expect(form.isValid, true);
     });
 
-    test('Async validation works and form becomes valid after corrections', () async {
+    test('Async validation works and form becomes valid after corrections',
+        () async {
       final form = MockForm();
       final invalidField = MockFFormField('');
 
@@ -58,10 +59,13 @@ void main() {
       expect(await form.checkAsync(), false); // Initial validation fails
 
       invalidField.value = 'Corrected value';
-      expect(await form.checkAsync(), true); // After correction, validation passes
+      expect(
+          await form.checkAsync(), true); // After correction, validation passes
     });
 
-    test('Form correctly tracks multiple fields with different validation states', () {
+    test(
+        'Form correctly tracks multiple fields with different validation states',
+        () {
       final form = MockForm();
       final validField = MockFFormField('Valid value');
       final invalidField = MockFFormField('');
@@ -78,7 +82,8 @@ void main() {
       expect(form.isValid, true);
     });
 
-    test('Subforms are correctly integrated into the validation flow', () async {
+    test('Subforms are correctly integrated into the validation flow',
+        () async {
       final subForm = MockForm();
       final form = MockForm()..addSubForm(subForm);
       final fieldInSubForm = MockFFormField(null); // Invalid field
@@ -86,10 +91,12 @@ void main() {
       subForm.addField(fieldInSubForm);
 
       expect(form.isValid, false);
-      expect(await form.checkAsync(), false); // Entire form is invalid due to subform
+      expect(await form.checkAsync(),
+          false); // Entire form is invalid due to subform
 
       fieldInSubForm.value = 'Valid input';
-      expect(await form.checkAsync(), true); // Now both form and subform are valid
+      expect(
+          await form.checkAsync(), true); // Now both form and subform are valid
     });
 
     test('Adding and removing fields dynamically works correctly', () {
@@ -172,7 +179,8 @@ void main() {
       expect(await form.checkAsync(), false); // SubForm 2 is invalid
 
       fieldInSubForm2.value = 'Valid';
-      expect(await form.checkAsync(), true); // Now all subforms and fields are valid
+      expect(await form.checkAsync(),
+          true); // Now all subforms and fields are valid
     });
   });
 }
