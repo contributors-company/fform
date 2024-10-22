@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:fform/fform.dart';
 import 'package:flutter/foundation.dart';
 
@@ -37,10 +38,14 @@ abstract class FForm extends ChangeNotifier {
   void dispose() {
     super.dispose();
     for (final field in fields) {
-      field..removeListener(notifyListeners)..dispose();
+      field
+        ..removeListener(notifyListeners)
+        ..dispose();
     }
     for (final form in subForms) {
-      form..removeListener(notifyListeners)..dispose();
+      form
+        ..removeListener(notifyListeners)
+        ..dispose();
     }
   }
 
@@ -52,29 +57,29 @@ abstract class FForm extends ChangeNotifier {
   /// Add a field to the form.
   @nonVirtual
   void addField(FFormField<_NullObject, _NullObject> field) {
-    field.addListener(notifyListeners);
     fields.add(field);
+    field.addListener(notifyListeners);
   }
 
   /// Remove a field from the form.
   @nonVirtual
   void removeField(FFormField<_NullObject, _NullObject> field) {
-    field.removeListener(notifyListeners);
     fields.remove(field);
+    field.removeListener(notifyListeners);
   }
 
   /// Add a sub form to the form.
   @nonVirtual
   void addSubForm(FForm form) {
-    form.addListener(notifyListeners);
     subForms.add(form);
+    form.addListener(notifyListeners);
   }
 
   /// Remove a sub form from the form.
   @nonVirtual
   void removeSubForm(FForm form) {
-    form.removeListener(notifyListeners);
     subForms.remove(form);
+    form.removeListener(notifyListeners);
   }
 
   /// Check if the form is valid.
@@ -99,14 +104,12 @@ abstract class FForm extends ChangeNotifier {
 
   /// Get the first field of a specific type.
   @nonVirtual
-  T get<T extends FFormField<_NullObject, _NullObject>>() =>
-      fields.whereType<T>() as T;
+  T get<T extends FFormField<_NullObject, _NullObject>>() => fields.whereType<T>().cast<T>().first;
 
   /// List of all fields of the form.
-  List<FFormField<_NullObject, _NullObject>> get _allFields => [
-        ...fields,
-        ...subForms.expand((element) => element._allFields),
-      ];
+  List<FFormField<_NullObject, _NullObject>> get _allFields => [...fields, ..._subFormFields];
+
+  List<FFormField<_NullObject, _NullObject>> get _subFormFields => [for (final subForm in subForms) ...subForm.fields];
 
   /// List of answers of the fields.
   @nonVirtual
@@ -127,22 +130,19 @@ abstract class FForm extends ChangeNotifier {
 
   /// List of exceptions of the fields.
   @nonVirtual
-  List<_NullObject> get exceptionFields =>
-      answerFields.where((element) => element != null).toList();
+  List<_NullObject> get exceptionFields => answerFields.where((element) => element != null).toList();
 
   /// List of exceptions of the sub forms.
   @nonVirtual
-  List<_NullObject> get exceptionSubForms =>
-      answersSubForms.where((element) => element != null).toList();
+  List<_NullObject> get exceptionSubForms => answersSubForms.where((element) => element != null).toList();
 
   /// List of all exceptions of the fields and sub forms.
   @nonVirtual
-  List<_NullObject> get exceptions =>
-      answers.where((element) => element != null).toList();
+  List<_NullObject> get exceptions => answers.where((element) => element != null).toList();
 
   /// Check if the form is valid.
   @nonVirtual
-  bool get isValid => exceptions.isEmpty;
+  bool get isValid => _allFields.fold(true, (previousValue, field) => previousValue && field.isValid);
 
   /// Check if the form is invalid.
   @nonVirtual
@@ -150,32 +150,10 @@ abstract class FForm extends ChangeNotifier {
 
   /// Get the first field with an exception.
   @nonVirtual
-  FFormField<_NullObject, _NullObject>? get firstInvalidField {
-    for (final field in _allFields) {
-      if (field.isInvalid) return field;
-    }
-    return null;
-  }
+  FFormField<_NullObject, _NullObject>? get firstInvalidField =>
+      _allFields.firstWhereOrNull((field) => field.isInvalid);
 
   ///Get the last field with an exception.
   @nonVirtual
-  FFormField<_NullObject, _NullObject>? get lastInvalidField {
-    for (final field in _allFields.reversed) {
-      if (field.isInvalid) return field;
-    }
-    return null;
-  }
-
-  /// Check if the field is valid.
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return false;
-    return other is FForm &&
-        other.answers == answers &&
-        other.isValid == isValid;
-  }
-
-  /// Check if the field is valid.
-  @override
-  int get hashCode => Object.hashAll([fields, isValid]);
+  FFormField<_NullObject, _NullObject>? get lastInvalidField => _allFields.lastWhereOrNull((field) => field.isInvalid);
 }

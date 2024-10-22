@@ -1,10 +1,13 @@
 import 'package:fform/fform.dart';
 
-class DescriptionField extends FFormField<String?, String> with KeyedField {
-  DescriptionField.dirty({required String value}) : super(value);
+enum DescriptionFieldError { empty }
+
+class DescriptionField extends FFormField<String, DescriptionFieldError> {
+  DescriptionField({required String value}) : super(value);
 
   @override
-  String? validator(value) {
+  DescriptionFieldError? validator(value) {
+    if (value.isEmpty) return DescriptionFieldError.empty;
     return null;
   }
 }

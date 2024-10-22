@@ -20,15 +20,11 @@ enum EmailError {
 
 class EmailField extends FFormField<String, EmailError>
     with AsyncField<String, EmailError> {
-  bool isRequired;
-
-  EmailField({required String value, this.isRequired = true}) : super(value);
+  EmailField({required String value}) : super(value);
 
   @override
   EmailError? validator(value) {
-    if (isRequired) {
-      if (value.isEmpty) return EmailError.empty;
-    }
+    if (value.isEmpty) return EmailError.empty;
     return null;
   }
 

@@ -1,0 +1,50 @@
+# Common Dart and Flutter files to ignore
+.dart_tool/
+packages/
+.idea/
+.vscode/
+build/
+test/
+example/
+pictures/
+
+# Configuration and system files
+*.log
+*.lock
+*.iml
+*.swp
+*.DS_Store
+pubspec.lock
+pubspec_overrides.yaml
+
+# Ignore coverage and report files
+coverage/
+reports/
+
+# Ignore generated files
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+
+# Ignore compiled output
+*.class
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.a
+*.dSYM
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.orig
+
+# Ignore other unnecessary files
+**/debug/
+**/profile/
+
+
+analysis_options.yaml
+Makefile

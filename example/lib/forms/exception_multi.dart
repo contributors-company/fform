@@ -6,7 +6,4 @@ class ExceptionMultiForm extends FForm {
 
   @override
   List<FFormField> get fields => [password];
-
-  @override
-  bool get allFieldUpdateCheck => true;
 }

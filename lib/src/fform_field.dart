@@ -9,7 +9,9 @@ import 'package:meta/meta.dart';
 /// It has a method to get the exception of the field.
 abstract class FFormField<T, E> extends ValueNotifier<T> {
   /// Constructor of the class.
-  FFormField(super.value);
+  FFormField(super.value) {
+    check();
+  }
 
   E? _exception;
 
@@ -30,8 +32,9 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
   /// Check if the field is valid.
   @nonVirtual
   bool get isValid {
-    if (_exception == null) return true;
     if (_exception case FFormException exception) return exception.isValid;
+    if (_exception == null) return true;
+    if (_exception != null) return false;
     return true;
   }
 
@@ -70,17 +73,4 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
 
     return isValid;
   }
-
-  /// Check if the field is valid.
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return false;
-    return other is FFormField<T, E> &&
-        other.value == value &&
-        other.isValid == isValid;
-  }
-
-  /// Check if the field is valid.
-  @override
-  int get hashCode => Object.hashAll([value, isValid]);
 }

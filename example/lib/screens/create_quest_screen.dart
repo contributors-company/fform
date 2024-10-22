@@ -76,12 +76,12 @@ class _CreateQuestScreenState extends State<CreateQuestScreen> {
   }
 
   _addForm() {
-    form.tasks.add(CreateQuestTaskForm.zero());
+    form.addSubForm(CreateQuestTaskForm.zero());
     _multiTaskController.add();
   }
 
   _removeForm() {
-    form.tasks.removeLast();
+    form.removeSubForm(form.tasks.last);
     _multiTaskController.remove(_multiTaskController.value.last);
   }
 

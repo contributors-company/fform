@@ -1,6 +1,6 @@
 import 'package:example/forms/forms.dart';
 import 'package:example/widgets/drawer.dart';
-import 'package:fform/fform.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,9 +25,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _login() async {
-    _checkForm().then((value) {
-      if (value) {
-        return ScaffoldMessenger.of(context).showSnackBar(
+    try {
+      final isValid = await _checkForm();
+
+      if (!mounted) return;
+
+      if (isValid) {
+        ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.greenAccent,
             content: Row(
@@ -37,14 +41,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.white,
                 ),
                 SizedBox(width: 10),
-                Text('Welcome', style: TextStyle(color: Colors.white))
+                Text(
+                  'Welcome',
+                  style: TextStyle(color: Colors.white),
+                ),
               ],
             ),
           ),
         );
       }
-    });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
+
 
   @override
   void initState() {
@@ -71,8 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
-          child: FFormBuilder(
-            form: _form,
+          child: ListenableBuilder(
+            listenable: _form,
             builder: (context, form) {
               return Column(
                 children: [

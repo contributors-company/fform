@@ -1,6 +1,7 @@
 import 'package:fform/fform.dart';
 
-import '../fields/fields.dart';
+import '../fields/description_field.dart';
+import '../fields/title_field.dart';
 
 class DrawForm extends FForm {
   TitleField title;
@@ -9,12 +10,12 @@ class DrawForm extends FForm {
   DrawForm({
     required this.title,
     required this.description,
-  });
+  }) : super(fields: [title, description]);
 
   DrawForm.zero()
       : this(
           title: TitleField.dirty(value: ''),
-          description: DescriptionField.dirty(value: ''),
+          description: DescriptionField(value: ''),
         );
 
   void changeFields({
@@ -24,8 +25,4 @@ class DrawForm extends FForm {
     this.title.value = title ?? this.title.value;
     this.description.value = description ?? this.description.value;
   }
-
-  @override
-  List<FFormField> get fields => [title, description];
-
 }

@@ -11,10 +11,12 @@ import '../widgets/drawer.dart';
 MultiDrawForm builderForm(MultiDrawController controller) {
   return MultiDrawForm(
     drawForm: DrawForm(
-      title:
-          TitleField.dirty(value: controller.value.drawController.value.title),
-      description: DescriptionField.dirty(
-          value: controller.value.drawController.value.description),
+      title: TitleField.dirty(
+        value: controller.value.drawController.value.title,
+      ),
+      description: DescriptionField(
+        value: controller.value.drawController.value.description,
+      ),
     ),
     drawForms: controller.value.multiDrawControllers.map((e) {
       return builderForm(e);
@@ -162,8 +164,9 @@ class _DrawCardState extends State<DrawCard> {
                               form: form,
                             ),
                             IconButton(
-                                onPressed: _removeDraw(controller, form),
-                                icon: const Icon(Icons.remove)),
+                              onPressed: _removeDraw(controller, form),
+                              icon: const Icon(Icons.remove),
+                            ),
                           ],
                         );
                       },

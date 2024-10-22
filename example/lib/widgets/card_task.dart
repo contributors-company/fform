@@ -42,36 +42,6 @@ class _CardTaskState extends State<CardTask> {
                     widget.controller.change(title: value);
                   },
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    errorText: form.hasCheck
-                        ? form.description.exception.toString()
-                        : null,
-                  ),
-                  onChanged: (value) {
-                    widget.controller.change(description: value);
-                  },
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    errorText: form.hasCheck
-                        ? form.descriptionReport.exception.toString()
-                        : null,
-                  ),
-                  onChanged: (value) {
-                    widget.controller.change(descriptionReport: value);
-                  },
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    errorText: form.hasCheck
-                        ? form.interval.exception.toString()
-                        : null,
-                  ),
-                  onChanged: (value) {
-                    widget.controller.change(interval: value);
-                  },
-                ),
               ],
             );
           },

@@ -23,15 +23,15 @@ class FFormBuilder<T extends FForm> extends StatelessWidget {
   /// Build the form using the builder.
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: form,
-    builder: (context, child) => FFormProvider<T>(
-        form: form,
-        child: Builder(
-          builder: (context) => builder(
-            context,
-            form,
+        listenable: form,
+        builder: (context, child) => FFormProvider<T>(
+          form: form,
+          child: Builder(
+            builder: (context) => builder(
+              context,
+              form,
+            ),
           ),
         ),
-      ),
-  );
+      );
 }
