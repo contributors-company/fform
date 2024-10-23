@@ -44,7 +44,7 @@ get: ## get dependencies
 .PHONY: upgrade
 upgrade: get ## upgrade dependencies
 	$(call print-target)
-	@fvm flutter pub upgrade
+	@fvm flutter pub get
 
 .PHONY: outdated
 outdated: ## check for outdated dependencies

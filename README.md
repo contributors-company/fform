@@ -50,6 +50,8 @@ FForm is a high-level Flutter package designed to make form creation and managem
 - `FFormProvider`: A widget that allows you to access the form in the widget tree without passing it as a parameter.
 - `KeyedField`: A mixin that provides a unique key for identifying the form field widget, used to manage the state of the widget and access it in the widget tree.
 - `AsyncField`: A mixin that provides asynchronous validation for form fields, allowing you to validate data against external sources or APIs.
+- `CachedField`: A mixin that provides cached value for field, used to manage the state of the widget and access it in the widget tree.
+- `FFormObserver`: A widget that allows you to observe the form state and trigger side effects based on the form's state changes.
 
 ## Why It Rocks 🎸
 
@@ -60,6 +62,8 @@ FForm is a high-level Flutter package designed to make form creation and managem
 - **Multiple Forms, No Problem**: Create multiple forms with custom fields and validation rules, all managed seamlessly by FForm.
 - **Custom Exceptions for Custom Needs**: Define custom exceptions for form fields to handle complex validation rules and error messages with ease.
 - **AsyncValidator**: Supports asynchronous validation for form fields, allowing you to validate data against external sources or APIs.
+- **CachedField**: Provides cached value for field, used to manage the state of the widget and access it in the widget tree.
+- **FFormObserver**: Allows you to observe the form state and trigger side effects based on the form's state changes.
 
 
 ## Previews
@@ -144,6 +148,23 @@ class EmailField extends FFormField<String, EmailError> with AsyncField<String, 
     if (!value.contains('@')) return EmailError.not;
     return null;
   }
+}
+```
+
+
+#### Cached value for field
+
+```dart
+class EmailField extends FFormField<String, EmailError> with CachedField<String, EmailError> {
+
+  EmailField({required String value}) : super(value);
+
+  @override
+  EmailError? validator(value) {
+    if (value.isEmpty) return EmailError.empty;
+    return null;
+  }
+
 }
 ```
 
@@ -316,6 +337,23 @@ class PasswordField extends FFormField<String, PasswordValidationException> {
       isSpecialCharValid: validator.isHaveSpecialChar,
       isNumberValid: validator.isHaveNumber,
     );
+  }
+}
+```
+
+### `FFormObserver`
+
+`FFormObserver` is a widget that allows you to observe the form state and trigger side effects based on the form's state changes. It provides a builder function that takes the form as a parameter and returns a widget tree based on the form's state.
+
+#### Example
+
+```dart
+class MyFFormObserver extends FFormObserver {
+  @override
+  void check(FForm form) {
+    if (kDebugMode) {
+      print('Form has been checked and is ${form.isValid ? 'valid' : 'invalid'}');
+    }
   }
 }
 ```

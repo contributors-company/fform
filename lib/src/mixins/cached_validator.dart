@@ -1,7 +1,7 @@
 import 'package:fform/fform.dart';
 
 /// A mixin that caches the validation results.
-mixin ValidationCachingMixin<T, E> on FFormField<T, E> {
+mixin CacheField<T, E> on FFormField<T, E> {
   static const int _cacheSizeLimit = 50;
 
   final Map<String, E?> _cachedExceptions = <String, E?>{};

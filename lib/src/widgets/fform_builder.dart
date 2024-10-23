@@ -2,7 +2,7 @@ import 'package:fform/fform.dart';
 import 'package:flutter/widgets.dart';
 
 /// FFormWidgetBuilder is a function that builds a form widget.
-typedef FFormWidgetBuilder<T> = Widget Function(BuildContext context, T form);
+typedef FFormWidgetBuilder<T extends FForm> = Widget Function(BuildContext context, T form);
 
 /// FFormBuilder is a widget that builds a form and manages the state of the form.
 /// It is used to create a form and manage the state of the form.

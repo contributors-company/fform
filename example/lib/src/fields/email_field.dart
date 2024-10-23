@@ -19,7 +19,7 @@ enum EmailError {
 }
 
 class EmailField extends FFormField<String, EmailError>
-    with  AsyncField<String, EmailError>, ValidationCachingMixin<String, EmailError> {
+    with  AsyncField<String, EmailError>, CacheField<String, EmailError> {
   EmailField({required String value}) : super(value);
 
   @override
