@@ -1,3 +1,7 @@
+## 5.0.4
+
+* Add FFormObserver and mixin CachedField for FFormField
+
 ## 5.0.3
 
 * Change Dart SDK version to 3.0.0

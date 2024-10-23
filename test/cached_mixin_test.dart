@@ -2,7 +2,7 @@
 import 'package:fform/fform.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class TestFormField extends FFormField<String, String> with ValidationCachingMixin<String, String> {
+class TestFormField extends FFormField<String, String> with CacheField<String, String> {
   TestFormField(String value) : super(value);
 
   int validationCallCount = 0;
@@ -19,7 +19,7 @@ class TestFormField extends FFormField<String, String> with ValidationCachingMix
 
 // Класс для тестирования с Map<String, dynamic>
 class MapFormField extends FFormField<Map<String, dynamic>, String>
-    with ValidationCachingMixin<Map<String, dynamic>, String> {
+    with CacheField<Map<String, dynamic>, String> {
   MapFormField(Map<String, dynamic> value) : super(value);
 
   int validationCallCount = 0;
