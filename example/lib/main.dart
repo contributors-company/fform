@@ -3,12 +3,15 @@ import 'package:example/src/screens/exception_multi_screen.dart';
 import 'package:example/src/screens/login_screen.dart';
 import 'package:example/src/screens/multi_screen.dart';
 import 'package:fform/fform.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MyFFormObserver extends FFormObserver {
   @override
   void check(FForm form) {
-    print('Form has been checked and is ${form.isValid ? 'valid' : 'invalid'}');
+    if (kDebugMode) {
+      print('Form has been checked and is ${form.isValid ? 'valid' : 'invalid'}');
+    }
   }
 }
 

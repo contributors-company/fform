@@ -42,7 +42,7 @@ jobs:
         run: flutter test
 
       - name: Analyze project source
-        run: flutter analyze
+        run: flutter analyze --fatal-infos --fatal-warnings lib/ test/
 
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
