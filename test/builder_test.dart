@@ -7,8 +7,7 @@ class MockForm extends FForm {}
 
 void main() {
   group('FFormBuilder Tests', () {
-    testWidgets('FFormBuilder builds form and provides it to builder',
-        (tester) async {
+    testWidgets('FFormBuilder builds form and provides it to builder', (tester) async {
       final form = MockForm();
 
       await tester.pumpWidget(
@@ -51,8 +50,7 @@ void main() {
       expect(didRebuild, true);
     });
 
-    testWidgets('FFormBuilder provides form through FFormProvider',
-        (tester) async {
+    testWidgets('FFormBuilder provides form through FFormProvider', (tester) async {
       final form = MockForm();
 
       await tester.pumpWidget(
@@ -95,8 +93,7 @@ void main() {
       expect(rebuildCount, 2);
     });
 
-    testWidgets('FFormBuilder does not rebuild if form does not update',
-        (tester) async {
+    testWidgets('FFormBuilder does not rebuild if form does not update', (tester) async {
       final form = MockForm();
       var rebuildCount = 0;
 

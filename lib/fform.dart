@@ -3,6 +3,8 @@ library;
 export 'src/fform.dart';
 export 'src/fform_exception.dart';
 export 'src/fform_field.dart';
+export 'src/fform_observer.dart';
+export 'src/mixins/cached_validator.dart';
 export 'src/mixins/keyed_field.dart';
 export 'src/mixins/mixin_async_validator.dart';
 export 'src/widgets/fform_builder.dart';

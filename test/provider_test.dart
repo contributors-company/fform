@@ -27,8 +27,7 @@ void main() {
       );
     });
 
-    testWidgets('maybeOf returns null when no form is provided',
-        (tester) async {
+    testWidgets('maybeOf returns null when no form is provided', (tester) async {
       await tester.pumpWidget(
         Builder(
           builder: (context) {
@@ -58,8 +57,7 @@ void main() {
       );
     });
 
-    testWidgets('updateShouldNotify returns true when form changes',
-        (tester) async {
+    testWidgets('updateShouldNotify returns true when form changes', (tester) async {
       final form1 = MockForm();
       final form2 = MockForm();
 
@@ -68,14 +66,10 @@ void main() {
         child: const SizedBox(),
       );
 
-      expect(
-          provider.updateShouldNotify(
-              FFormProvider(form: form2, child: const SizedBox())),
-          true);
+      expect(provider.updateShouldNotify(FFormProvider(form: form2, child: const SizedBox())), true);
     });
 
-    testWidgets('updateShouldNotify returns false when form does not change',
-        (tester) async {
+    testWidgets('updateShouldNotify returns false when form does not change', (tester) async {
       final form = MockForm();
 
       final provider = FFormProvider<MockForm>(
@@ -83,10 +77,7 @@ void main() {
         child: const SizedBox(),
       );
 
-      expect(
-          provider.updateShouldNotify(
-              FFormProvider(form: form, child: const SizedBox())),
-          false);
+      expect(provider.updateShouldNotify(FFormProvider(form: form, child: const SizedBox())), false);
     });
   });
 }
