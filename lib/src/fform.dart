@@ -31,8 +31,10 @@ abstract class FForm extends ChangeNotifier {
   List<FFormField<_NullObject, _NullObject>> fields;
 
   /// List of sub forms of the form.
-
   List<FForm> subForms;
+
+  /// Observer of the form.
+  static FFormObserver? observer;
 
   @override
   void dispose() {
@@ -49,9 +51,6 @@ abstract class FForm extends ChangeNotifier {
     }
   }
 
-  /// Check if the form has been checked.
-  @nonVirtual
-  bool get hasCheck => _hasCheck;
   bool _hasCheck = false;
 
   /// Add a field to the form.
@@ -97,6 +96,7 @@ abstract class FForm extends ChangeNotifier {
   }
 
   bool _check() {
+    observer?.check(this);
     _hasCheck = true;
     notifyListeners();
     return isValid;
@@ -104,12 +104,14 @@ abstract class FForm extends ChangeNotifier {
 
   /// Get the first field of a specific type.
   @nonVirtual
-  T get<T extends FFormField<_NullObject, _NullObject>>() =>
-      fields.whereType<T>().cast<T>().first;
+  T get<T extends FFormField<_NullObject, _NullObject>>() => fields.whereType<T>().cast<T>().first;
+
+  /// Check if the form has been checked.
+  @nonVirtual
+  bool get hasCheck => _hasCheck;
 
   /// List of all fields of the form.
-  List<FFormField<_NullObject, _NullObject>> get _allFields =>
-      [...fields, ..._subFormFields];
+  List<FFormField<_NullObject, _NullObject>> get _allFields => [...fields, ..._subFormFields];
 
   List<FFormField<_NullObject, _NullObject>> get _subFormFields =>
       [for (final subForm in subForms) ...subForm.fields];
@@ -133,23 +135,19 @@ abstract class FForm extends ChangeNotifier {
 
   /// List of exceptions of the fields.
   @nonVirtual
-  List<_NullObject> get exceptionFields =>
-      answerFields.where((element) => element != null).toList();
+  List<_NullObject> get exceptionFields => answerFields.where((element) => element != null).toList();
 
   /// List of exceptions of the sub forms.
   @nonVirtual
-  List<_NullObject> get exceptionSubForms =>
-      answersSubForms.where((element) => element != null).toList();
+  List<_NullObject> get exceptionSubForms => answersSubForms.where((element) => element != null).toList();
 
   /// List of all exceptions of the fields and sub forms.
   @nonVirtual
-  List<_NullObject> get exceptions =>
-      answers.where((element) => element != null).toList();
+  List<_NullObject> get exceptions => answers.where((element) => element != null).toList();
 
   /// Check if the form is valid.
   @nonVirtual
-  bool get isValid => _allFields.fold(
-      true, (previousValue, field) => previousValue && field.isValid);
+  bool get isValid => _allFields.fold(true, (previousValue, field) => previousValue && field.isValid);
 
   /// Check if the form is invalid.
   @nonVirtual

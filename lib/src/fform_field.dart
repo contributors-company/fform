@@ -44,7 +44,7 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
 
   /// Check if the field is valid.
   /// If the field is valid, it returns true.
-  @nonVirtual
+  @mustCallSuper
   Future<bool> check() async {
     switch (validator(value)) {
       case null:
@@ -65,11 +65,6 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
     }
 
     if (_exception != null) return isValid;
-
-    if (this case AsyncField<T, E> field) {
-      final result = await field.getAsyncException();
-      _exception = result;
-    }
 
     return isValid;
   }
