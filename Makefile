@@ -54,7 +54,7 @@ outdated: ## check for outdated dependencies
 .PHONY: fix
 fix: get ## format and fix code
 	$(call print-target)
-	@fvm dart format --fix -l 110 lib/ test/
+	@fvm dart format --fix -l 80 lib/ test/
 	@fvm dart fix --apply lib/
 	@fvm dart fix --apply test/
 
@@ -74,7 +74,7 @@ clean: ## remove files created during build pipeline
 .PHONY: analyze
 analyze: get ## check source code for errors and warnings
 	$(call print-target)
-	@fvm dart format --set-exit-if-changed -l 110 -o none lib/ test/
+	@fvm dart format --set-exit-if-changed -l 80 -o none lib/ test/
 	@fvm flutter analyze --fatal-infos --fatal-warnings lib/ test/
 
 .PHONY: check

@@ -40,7 +40,8 @@ void main() {
     });
 
     test('Setting exception manually should update field state', () {
-      final field = TestFFormField(10)..exception = MockException(isValid: false);
+      final field = TestFFormField(10)
+        ..exception = MockException(isValid: false);
 
       expect(field.isValid, false);
       expect(field.exception!.isValid, false);
