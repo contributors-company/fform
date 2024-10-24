@@ -1,3 +1,7 @@
+## 5.0.5
+
+* Add FFormObserver and mixin CachedField for FFormField
+
 ## 5.0.4
 
 * Add FFormObserver and mixin CachedField for FFormField

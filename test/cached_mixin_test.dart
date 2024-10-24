@@ -2,7 +2,8 @@
 import 'package:fform/fform.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class TestFormField extends FFormField<String, String> with CacheField<String, String> {
+class TestFormField extends FFormField<String, String>
+    with CacheField<String, String> {
   TestFormField(String value) : super(value);
 
   int validationCallCount = 0;
@@ -66,7 +67,8 @@ void main() {
       await field.check();
       expect(field.isValid, isFalse);
       expect(field.validationCallCount, equals(2),
-          reason: 'Validator should not be called again for the same invalid value');
+          reason:
+              'Validator should not be called again for the same invalid value');
 
       // Возврат к предыдущему значению
       field.value = 'initial';
