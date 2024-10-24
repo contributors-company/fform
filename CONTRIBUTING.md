@@ -1,7 +1,3 @@
-Sure! Here's a default `CONTRIBUTING.md` file for your project. This file provides guidelines to help contributors understand how to contribute effectively.
-
----
-
 # Contributing to fform
 
 Thank you for considering contributing to the **fform** project! Your contributions are highly appreciated and help make this project better for everyone.
@@ -166,11 +162,3 @@ Introduced AsyncField mixin to enable asynchronous validation in form fields.
 
 Closes #123
 ```
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the same license as the project.
-
----
-
-If you have any questions or need assistance, feel free to open an issue or reach out to the maintainers.
