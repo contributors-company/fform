@@ -1,6 +1,6 @@
 ## 5.0.5
 
-* Add FFormObserver and mixin CachedField for FFormField
+* Documentation for methods, classes, properties, parameters, mixins
 
 ## 5.0.4
 
