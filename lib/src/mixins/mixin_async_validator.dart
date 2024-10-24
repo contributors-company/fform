@@ -1,44 +1,74 @@
 import 'dart:async';
 
 import 'package:fform/fform.dart';
-import 'package:meta/meta.dart';
 
+/// {@template async_field_mixin}
 /// A mixin that provides asynchronous validation for a form field.
 ///
 /// This mixin should be used on a class that extends [FFormField].
+///
+/// ### Example
+/// ```dart
+/// class MyAsyncFormField extends FFormField<String, MyException> with AsyncField<String, MyException> {
+///   @override
+///   Future<MyException?> asyncValidator(String value) async {
+///     // Perform asynchronous validation, e.g., server-side checks
+///     // Return an instance of MyException if validation fails, or null if it succeeds
+///   }
+///
+///   @override
+///   MyException? validator(String value) {
+///     // Optional synchronous validation before the async validation
+///     return null;
+///   }
+/// }
+/// ```
+/// {@endtemplate}
 mixin AsyncField<T, E> on FFormField<T, E> {
-  /// A [Completer] that holds the future result of the asynchronous validation.
-  Completer<E?>? completer;
-
+  /// {@template async_validator_method}
   /// An asynchronous validator that should be overridden to provide custom validation logic.
   ///
-  /// Returns a [Future] that completes with an error of type [E] if validation fails,
+  /// Returns a [Future] that completes with an exception of type `E` if validation fails,
   /// or `null` if validation succeeds.
+  ///
+  /// ### Example
+  /// ```dart
+  /// @override
+  /// Future<MyException?> asyncValidator(String value) async {
+  ///   // Perform asynchronous validation logic
+  ///   final isValid = await someAsyncCheck(value);
+  ///   return isValid ? null : MyException('Validation failed');
+  /// }
+  /// ```
+  /// {@endtemplate}
   Future<E?> asyncValidator(T value);
 
-  /// Retrieves the result of the asynchronous validation.
+  /// {@template check_method}
+  /// Validates the field asynchronously and updates the exception state.
   ///
-  /// If there is an active validation, it returns its [Future]. Otherwise, it starts a new
-  /// validation by calling [asyncValidator] and returns its [Future].
+  /// It first performs synchronous validation using [super.check]. If that passes,
+  /// it proceeds to asynchronous validation by calling [asyncValidator].
   ///
-  /// Returns a [Future] that completes with an error of type [E] if validation fails,
-  /// or `null` if validation succeeds.
-  @nonVirtual
-  Future<E?> getAsyncException() async {
-    completer = Completer<E?>();
+  /// Returns a [Future] that completes with `true` if the field is valid after validation,
+  /// or `false` if it is invalid.
+  ///
+  /// ### Example
+  /// ```dart
+  /// final isValid = await field.check();
+  /// if (isValid) {
+  ///   // Proceed with valid data
+  /// } else {
+  ///   // Handle validation errors
+  /// }
+  /// ```
+  /// {@endtemplate}
+  @override
+  Future<bool> check() async {
+    if (!await super.check()) return false;
 
-    try {
-      /// Perform the asynchronous validation.
-      exception = await asyncValidator(value);
-      completer?.complete(exception);
-    } catch (error) {
-      /// Complete the completer with an error if validation fails.
-      completer?.completeError(error);
-    } finally {
-      /// Notify listeners after validation completes.
-      notifyListeners();
-    }
+    exception = await asyncValidator(value);
 
-    return completer?.future;
+    notifyListeners();
+    return isValid;
   }
 }

@@ -63,15 +63,15 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "5.0.3"
+    version: "5.0.5"
   fform_validator:
     dependency: "direct main"
     description:
       name: fform_validator
-      sha256: "24525c889f83a3c5cb3409ade1dd796ee09263ae4760bdbe78c2ef7a982b40ff"
+      sha256: "5a02deea17b7087994981b2ebbf2a68b16f2ecf0ed5d4e3ed1784dbe61a6d81c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   flutter:
     dependency: "direct main"
     description: flutter
