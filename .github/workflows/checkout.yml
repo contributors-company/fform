@@ -49,12 +49,15 @@ jobs:
             flutter test --coverage
             lcov --directory coverage --capture --output-file coverage/lcov.info
 
-      - name: Upload to Codecov
-        uses: codecov/codecov-action@v2
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v3.0.0
         with:
-          files: coverage/lcov.info
-          fail_ci_if_error: true
-          flags: flutter
+          path: coverage/lcov.info
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Analyze project source
         run: flutter analyze --fatal-infos --fatal-warnings lib/ test/
