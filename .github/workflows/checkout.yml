@@ -38,8 +38,17 @@ jobs:
       #   run: dart format --output=none --set-exit-if-changed .
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: flutter test
+      - name: Run tests with coverage
+        run: |
+            flutter test --coverage
+            lcov --directory coverage --capture --output-file coverage/lcov.info
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: coverage/lcov.info
+          fail_ci_if_error: true
+          flags: flutter
 
       - name: Analyze project source
         run: flutter analyze --fatal-infos --fatal-warnings lib/ test/
