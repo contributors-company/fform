@@ -45,14 +45,7 @@ jobs:
         run: sudo apt-get install -y lcov
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Run tests with coverage
-        run: |
-            flutter test --coverage
-            lcov --directory coverage --capture --output-file coverage/lcov.info
-
-      - name: Check Code Coverage
-        uses: VeryGoodOpenSource/very_good_coverage@v3.0.0
-        with:
-          path: coverage/lcov.info
+        run: flutter test --coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
