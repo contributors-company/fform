@@ -8,6 +8,13 @@ name: Dart
 on:
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'lib/**'
+      - '.github/**'
+  push:
+    branches: [ "main" ]
+    paths:
+      - '.github/**'
 
 jobs:
   checkout:
