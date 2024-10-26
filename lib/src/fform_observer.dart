@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:fform/fform.dart';
 
 /// {@template fform_observer}
@@ -37,5 +39,6 @@ abstract class FFormObserver {
   /// }
   /// ```
   /// {@endtemplate}
+  ///
   void check(FForm form) {}
 }
