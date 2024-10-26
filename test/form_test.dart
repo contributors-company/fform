@@ -15,7 +15,8 @@ class MockFFormField extends FFormField<Object?, String> {
 }
 
 class MockForm extends FForm {
-  MockForm() : super(subForms: [], fields: []);
+  MockForm({List<FForm>? subForms, List<FFormField<Object?, Object?>>? fields})
+      : super(subForms: subForms ?? [], fields: fields ?? []);
 }
 
 void main() {
@@ -156,6 +157,8 @@ void main() {
         ..addField(invalidField2);
 
       expect(form.exceptions.length, 2); // Two invalid fields
+      expect(form.exceptionFields.length, 2); // Two invalid fields
+      expect(form.exceptionSubForms.length, 0); // Two invalid fields
 
       invalidField1.value = 'Fixed';
       form.check();
@@ -179,8 +182,58 @@ void main() {
       expect(await form.checkAsync(), false); // SubForm 2 is invalid
 
       fieldInSubForm2.value = 'Valid';
-      expect(await form.checkAsync(),
-          true); // Now all subforms and fields are valid
+      expect(await form.checkAsync(), true);
+      // Now all subforms and fields are valid
+    });
+
+    test('Form works correctly with multiple nested subforms', () async {
+      final subForm1 = MockForm();
+      final subForm2 = MockForm();
+      final form = MockForm()
+        ..addSubForm(subForm1)
+        ..addSubForm(subForm2);
+
+      final fieldInSubForm1 = MockFFormField('Valid');
+      final fieldInSubForm2 = MockFFormField(''); // Invalid field
+
+      subForm1.addField(fieldInSubForm1);
+      subForm2.addField(fieldInSubForm2);
+
+      expect(await form.checkAsync(), false); // SubForm 2 is invalid
+
+      fieldInSubForm2.value = 'Valid';
+      expect(await form.checkAsync(), true);
+
+      subForm1.removeField(fieldInSubForm1);
+      form.removeSubForm(subForm2);
+      expect(await form.checkAsync(), true);
+      form.dispose();
+    });
+
+    test('FForm Constructor', () async {
+      final field = MockFFormField('Valid');
+      final subForm = MockForm(fields: [field]);
+      final form = MockForm(fields: [field], subForms: [subForm]);
+
+      expect(form.hasCheck, false);
+      expect(form.isValid, true);
+      expect(form.get<MockFFormField>(), field);
+
+      form.removeField(field);
+      expect(form.fields.length, 0);
+
+      expect(form.hasCheck, false);
+      expect(form.isValid, true); // Form still valid after field removal
+      expect(await form.checkAsync(), true);
+      expect(form.hasCheck, true);
+      expect(form.subForms.length, 1);
+      form.removeSubForm(subForm);
+      expect(form.subForms.length, 0);
+    });
+
+    test('FForm Dispose', () async {
+      MockForm(fields: [MockFFormField('Valid')], subForms: [MockForm()])
+          .dispose();
     });
   });
 }
