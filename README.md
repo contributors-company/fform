@@ -1,10 +1,14 @@
 # FForm Package 🚀
 
 ![Pub Version](https://img.shields.io/pub/v/fform)
-![Build Status](https://img.shields.io/github/actions/workflow/status/AlexHCJP/fform/build.yml)
 ![License](https://img.shields.io/github/license/AlexHCJP/fform)
 ![Issues](https://img.shields.io/github/issues/AlexHCJP/fform)
 ![Coverage](https://img.shields.io/codecov/c/github/contributors-company/fform)
+![Stars](https://img.shields.io/github/stars/AlexHCJP/fform)
+![Contributors](https://img.shields.io/github/contributors/AlexHCJP/fform)
+![Watchers](https://img.shields.io/github/watchers/AlexHCJP/fform)
+![Forks](https://img.shields.io/github/forks/AlexHCJP/fform)
+
 
 - [Introduction](#getting-started-with-fform-)
   - [Getting Started with FForm 🌟](#getting-started-with-fform-)

@@ -65,5 +65,12 @@ void main() {
       expect(observer.wasChecked, isFalse);
       expect(observer.formIsValid, isNull);
     });
+
+    test('Observer should not be checked before check is called', () {
+      final observer = MyFormObserver()..check(MyFForm());
+
+      expect(observer.wasChecked, isTrue);
+      expect(observer.formIsValid, isTrue);
+    });
   });
 }

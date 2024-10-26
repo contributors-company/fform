@@ -20,7 +20,8 @@ class MyFormField extends FFormField<String, MyException> {
     if (value.isEmpty) {
       return MyException(message: 'Value cannot be empty');
     }
-    return null;
+
+    return MyException(message: 'Value contains warning', isValid: true);
   }
 }
 
@@ -75,6 +76,16 @@ void main() {
       expect(field.isValid, isTrue);
       expect(field.exception,
           isNull); // Так как isValid = true, exception сбрасывается
+    });
+
+    test('Exception with isValid false should be considered invalid', () async {
+      final field = MyFormField('');
+      final isValid = await field.check();
+      expect(isValid, isFalse);
+      expect(field.isValid, isFalse);
+      expect(field.exception, isNotNull);
+      expect(field.exception, isA<MyException>());
+      expect(field.exception?.message, 'Value cannot be empty');
     });
   });
 }
