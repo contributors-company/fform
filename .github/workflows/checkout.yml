@@ -41,7 +41,8 @@ jobs:
       # Uncomment this step to verify the use of 'dart format' on each commit.
       # - name: Verify formatting
       #   run: dart format --output=none --set-exit-if-changed .
-
+      - name: Install lcov
+        run: sudo apt-get install -y lcov
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Run tests with coverage
         run: |
