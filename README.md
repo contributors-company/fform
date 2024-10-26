@@ -4,6 +4,7 @@
 ![Build Status](https://img.shields.io/github/actions/workflow/status/AlexHCJP/fform/build.yml)
 ![License](https://img.shields.io/github/license/AlexHCJP/fform)
 ![Issues](https://img.shields.io/github/issues/AlexHCJP/fform)
+![Coverage](https://img.shields.io/codecov/c/github/contributors-company/fform)
 
 - [Introduction](#getting-started-with-fform-)
   - [Getting Started with FForm 🌟](#getting-started-with-fform-)
