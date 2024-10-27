@@ -373,6 +373,9 @@ class MyFFormObserver extends FFormObserver {
 - [Infinity Forms](./example/lib/screens/multi_screen.dart)
 - [Hard Custom Field](./example/lib/screens/exception_multi_screen.dart)
 
+## Codecov
+
+![Codecov](https://codecov.io/github/contributors-company/fform/graphs/sunburst.svg?token=FY0FEJJRDX)
 
 ## How to Contribute
 
