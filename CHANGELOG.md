@@ -1,3 +1,7 @@
+## 5.0.6
+
+* Test, Documentation, and fix bugs
+
 ## 5.0.5
 
 * Documentation for methods, classes, properties, parameters, mixins
