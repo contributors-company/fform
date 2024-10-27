@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import './async_field_test.dart' as async_test;
 import './builder_test.dart' as builder_test;
 import './cached_mixin_test.dart' as cached_mixin_test;
 import './field_exception_test.dart' as exception_test;
@@ -17,5 +18,6 @@ void main() {
     cached_mixin_test.main();
     exception_test.main();
     observer_test.main();
+    async_test.main();
   });
 }
