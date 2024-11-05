@@ -377,14 +377,6 @@ class MyFFormObserver extends FFormObserver {
 
 ![Codecov](https://codecov.io/github/contributors-company/fform/graphs/sunburst.svg?token=FY0FEJJRDX)
 
-## How to Contribute
+## Visitors
 
-1. Fork the repository
-2. Clone the repository
-3. Create a new branch
-4. Make your changes
-5. Commit your changes
-6. Push to the branch
-7. Submit a pull request
-8. Wait for approval
-9. Happy coding!
+<img align="left" src = "https://profile-counter.glitch.me/fform/count.svg" alt ="Loading">
