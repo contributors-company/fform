@@ -8,6 +8,8 @@ import './field_test.dart' as field_test;
 import './form_test.dart' as form_test;
 import './observer_test.dart' as observer_test;
 import './provider_test.dart' as provider_test;
+import './fform_status.dart' as fform_status;
+
 
 void main() {
   group('FForm test', () {
@@ -19,5 +21,6 @@ void main() {
     exception_test.main();
     observer_test.main();
     async_test.main();
+    fform_status.main();
   });
 }
