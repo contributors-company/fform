@@ -92,8 +92,7 @@ void main() {
       subForm.addField(fieldInSubForm);
 
       expect(form.isValid, false);
-      expect(await form.checkAsync(),
-          false); // Entire form is invalid due to subform
+      expect(await form.checkAsync(), false); // Entire form is invalid due to subform
 
       fieldInSubForm.value = 'Valid input';
       expect(

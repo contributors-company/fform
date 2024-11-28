@@ -31,6 +31,9 @@
     - [Example](#example-4)
   - [`FFormObserver`](#fformobserver)
     - [Example](#example-5)
+  - [`FFormStatus`](#fformstatus)
+    - [Enum Values](#enum-values)
+    - [Example](#example-6)
 
 
 
@@ -366,6 +369,28 @@ class MyFFormObserver extends FFormObserver {
 }
 ```
 
+### `FFormStatus`
+
+`FFormStatus` is an enum that represents the various states of a form (`FForm`) during its lifecycle. It helps track the form's status, such as whether it's idle, processing, successfully validated, or has encountered errors.
+
+#### Enum Values
+
+- **`initial`**: The default state of the form before any action is taken.
+- **`loading`**: Indicates that the form is currently processing, such as during validation or submission.
+- **`success`**: Indicates that the form has successfully completed its operation with no validation errors.
+- **`exception`**: Indicates that the form has encountered errors, such as validation failures.
+
+#### Example
+
+```dart
+switch(_form.status) {
+   FFormStatus.initial => print('initial'),
+   FFormStatus.loading => print('loading'),
+   FFormStatus.success => print('success'),
+   FFormStatus.exception => print('exception'),
+};
+```
+
 ## Examples
 
 - [Login Form](./example/lib/screens/login_screen.dart)
@@ -376,15 +401,3 @@ class MyFFormObserver extends FFormObserver {
 ## Codecov
 
 ![Codecov](https://codecov.io/github/contributors-company/fform/graphs/sunburst.svg?token=FY0FEJJRDX)
-
-## How to Contribute
-
-1. Fork the repository
-2. Clone the repository
-3. Create a new branch
-4. Make your changes
-5. Commit your changes
-6. Push to the branch
-7. Submit a pull request
-8. Wait for approval
-9. Happy coding!
