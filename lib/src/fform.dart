@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 
 typedef _NullObject = Object?;
 
-
 /// Represents the various states of a form (`FForm`).
 enum FFormStatus {
   /// The initial state of the form before any validation or action occurs.
@@ -48,7 +47,6 @@ enum FFormStatus {
   exception,
 }
 
-
 /// {@template fform_class}
 /// An abstract class representing a form.
 ///
@@ -86,7 +84,8 @@ abstract class FForm extends ChangeNotifier {
   /// form.fields.add(field);
   /// ```
   /// {@endtemplate}
-  List<FFormField<_NullObject, _NullObject>> get fields => List.unmodifiable(_fields);
+  List<FFormField<_NullObject, _NullObject>> get fields =>
+      List.unmodifiable(_fields);
 
   final List<FForm> _subForms;
 
@@ -126,7 +125,6 @@ abstract class FForm extends ChangeNotifier {
     notifyListeners();
   }
 
-
   /// {@template has_check_property}
   /// Indicates whether the form has been checked at least once.
   ///
@@ -164,8 +162,6 @@ abstract class FForm extends ChangeNotifier {
     }
     super.dispose();
   }
-
-
 
   /// {@template add_field_method}
   /// Adds a field to the form and starts listening for changes.
@@ -279,7 +275,6 @@ abstract class FForm extends ChangeNotifier {
   @nonVirtual
   T get<T extends FFormField<_NullObject, _NullObject>>() =>
       _fields.whereType<T>().cast<T>().first;
-
 
   List<FFormField<_NullObject, _NullObject>> get _allFields =>
       [..._fields, ..._subFormFields];

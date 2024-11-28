@@ -18,7 +18,6 @@ class MockForm extends FForm {
       : super(subForms: subForms ?? [], fields: fields ?? []);
 }
 
-
 void main() {
   group('FFormStatus Tests', () {
     late MockForm form;
@@ -27,8 +26,8 @@ void main() {
       // Создаем форму с валидными и невалидными полями
       form = MockForm(fields: [
         MockFFormField('Valid Field'), // Валидное поле
-        MockFFormField(''),           // Невалидное поле (пустое значение)
-        MockFFormField(null),         // Невалидное поле (null значение)
+        MockFFormField(''), // Невалидное поле (пустое значение)
+        MockFFormField(null), // Невалидное поле (null значение)
       ]);
     });
 
@@ -40,7 +39,6 @@ void main() {
       expect(form.status, equals(FFormStatus.initial));
       form.check();
       expect(form.status, equals(FFormStatus.exception));
-
     });
 
     test('Status changes to exception if some fields are invalid', () async {
@@ -61,7 +59,7 @@ void main() {
     });
 
     test('Validator correctly identifies invalid fields', () {
-      for (var field in form.fields) {
+      for (final field in form.fields) {
         final result = field.validator(field.value);
         if (field.value == null || field.value == '') {
           expect(result, equals('Field is required'));
