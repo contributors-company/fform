@@ -93,9 +93,8 @@ abstract class FFormField<T, E> extends ValueNotifier<T> {
   @nonVirtual
   bool get isValid {
     if (_exception case FFormException exception) return exception.isValid;
-    if (_exception == null) return true;
-    if (_exception != null) return false;
-    return true;
+
+    return _exception == null;
   }
 
   /// {@template is_invalid_property}
