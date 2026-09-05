@@ -1,11 +1,47 @@
 ![Logo](screenshots/big-frame.png)
 ![Frame](pictures/contributors.png)
 
-![Pub Version](https://img.shields.io/pub/v/fform)
-![License](https://img.shields.io/github/license/AlexHCJP/fform)
-![Issues](https://img.shields.io/github/issues/AlexHCJP/fform)
-![Codecov](https://codecov.io/gh/AlexHCJP/fform/branch/master/graph/badge.svg?token=FY0FEJJRDX)
-![Stars](https://img.shields.io/github/stars/AlexHCJP/fform)
+<div align="center">
+  <a href="https://pub.dev/packages/fform">
+    <img src="https://img.shields.io/pub/v/fform?label=Pub&logo=dart" alt="Pub Package" />
+  </a>
+  <a href="https://pub.dev/packages/fform">
+    <img src="https://img.shields.io/pub/likes/fform?style=flat&logo=dart&label=Likes" alt="Pub Likes" />
+  </a>
+  <a href="https://pub.dev/packages/fform/score">
+    <img src="https://img.shields.io/pub/points/fform?label=Score&logo=dart" alt="Pub Score" />
+  </a>
+  <a href="https://pub.dev/packages/fform">
+    <img src="https://img.shields.io/pub/dm/fform?style=flat&color=blue&logo=dart&label=Downloads" alt="Pub Monthly Downloads" />
+  </a>
+  <a href="https://github.com/AlexHCJP/fform">
+    <img src="https://img.shields.io/github/stars/AlexHCJP/fform?style=flat&logo=github&colorB=deeppink&label=Stars" alt="Star on Github" />
+  </a>
+  <a href="https://github.com/AlexHCJP/fform">
+    <img src="https://img.shields.io/github/forks/AlexHCJP/fform?color=orange&label=Forks&logo=github" alt="Forks on Github" />
+  </a>
+  <a href="https://github.com/AlexHCJP/fform/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/AlexHCJP/fform?style=flat&logo=github&colorB=yellow&label=Contributors" alt="Contributors" />
+  </a>
+  <a href="https://github.com/AlexHCJP/fform/issues">
+    <img src="https://img.shields.io/github/issues/AlexHCJP/fform?label=Issues&logo=github&color=purple" alt="Issues" />
+  </a>
+  <a href="https://github.com/AlexHCJP/fform/actions/workflows/checkout.yml">
+    <img src="https://github.com/AlexHCJP/fform/actions/workflows/checkout.yml/badge.svg" alt="Build Status" />
+  </a>
+  <a href="https://codecov.io/gh/AlexHCJP/fform">
+    <img src="https://img.shields.io/codecov/c/github/AlexHCJP/fform?label=Coverage&logo=codecov" alt="Coverage" />
+  </a>
+  <a href="https://github.com/AlexHCJP/fform">
+    <img src="https://img.shields.io/github/languages/code-size/AlexHCJP/fform?logo=github&color=blue&label=Size" alt="Code size" />
+  </a>
+  <a href="https://github.com/AlexHCJP/fform/blob/HEAD/LICENSE">
+    <img src="https://img.shields.io/github/license/AlexHCJP/fform?label=License&color=red&logo=Leanpub" alt="License" />
+  </a>
+  <a href="https://pub.dev/packages/fform">
+    <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux-blue.svg?logo=flutter" alt="Platform" />
+  </a>
+</div>
 
 
 - [Introduction](#getting-started-with-fform-)

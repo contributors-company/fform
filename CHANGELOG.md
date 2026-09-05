@@ -1,3 +1,8 @@
+## 5.2.7
+
+* Drop the `funding` link: the Patreon page it named returns 404
+* Refresh the README badge row
+
 ## 5.2.6
 
 * update readme.md
